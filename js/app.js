@@ -4,11 +4,21 @@
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const money = n => SITE.currency + Number(n).toLocaleString("en-IN");
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const byId = id => PRODUCTS.find(p => p.id === id);
+  
+  // byId supports both catalogue products and custom generated items
+  const customItems = {};
+  const byId = id => PRODUCTS.find(p => p.id === id) || customItems[id];
+
   const safeLS = {
     get(k) { try { return localStorage.getItem(k); } catch { return null; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch {} },
   };
+
+  // Restore saved custom items from localStorage
+  try {
+    const savedCustom = JSON.parse(safeLS.get("pb-custom-items") || "{}");
+    Object.assign(customItems, savedCustom);
+  } catch {}
 
   /* ---------- Drawn flower (fallback art + decoration) ---------- */
   function flowerSVG(petal = "#d94f7b", center = "#f4c542", n = 8) {
@@ -22,12 +32,12 @@
   window.imgFallback = img => {
     const p = byId(img.dataset.id);
     const wrap = document.createElement("div");
-    wrap.innerHTML = flowerSVG(...(p ? p.colors : ["#d94f7b", "#f4c542"]));
+    wrap.innerHTML = flowerSVG(...(p && p.colors ? p.colors : ["#d94f7b", "#f4c542"]));
     img.replaceWith(wrap.firstElementChild);
   };
-  const media = p => p.img
+  const media = p => (p && p.img)
     ? `<img src="${esc(p.img)}" alt="${esc(p.name)}" loading="lazy" data-id="${p.id}" onerror="imgFallback(this)">`
-    : flowerSVG(...p.colors);
+    : flowerSVG(...(p && p.colors ? p.colors : ["#d94f7b", "#f4c542"]));
 
   /* ---------- Theme ---------- */
   const PALETTES = {
@@ -74,7 +84,7 @@
     $("#heroArt .s1").style.cssText = "position:absolute;width:30%;top:0;right:4%;animation:float 7s ease-in-out infinite";
     $("#heroArt .s2").style.cssText = "position:absolute;width:22%;bottom:6%;left:0;animation:float 9s ease-in-out -3s infinite";
   }
-  const tickWords = ["Fresh roses", "Marigold torans", "Hand-tied bouquets", "Sunflower smiles", "Mogra gajra", "Wedding florals", "Pooja flowers", "Custom orders"];
+  const tickWords = ["Everlasting Paper Flowers", "Custom Bouquets", "Handcrafted with Love", "Crepe Paper Florals", "Wedding Keepsakes", "Special Gifting", "Made to Order"];
   const tickHtml = tickWords.map(w => `<span>✿ ${w}</span>`).join("");
   $("#ticker").innerHTML = tickHtml + tickHtml;
 
@@ -93,12 +103,16 @@
   function renderGrid() {
     const list = PRODUCTS.filter(p =>
       (filter === "all" || p.category === filter) &&
-      (!q || (p.name + " " + p.hindi + " " + p.category + " " + p.desc).toLowerCase().includes(q)));
+      (!q || (p.name + " " + (p.hindi || "") + " " + p.category + " " + p.desc).toLowerCase().includes(q)));
+    
     $("#grid").innerHTML = list.map((p, i) => `
       <article class="card reveal" style="transition-delay:${Math.min(i, 6) * 60}ms" data-id="${p.id}">
-        <div class="card-img">${media(p)}<span class="tag">${esc(CATEGORIES.find(c => c[0] === p.category)?.[1] || p.category)}</span></div>
+        <div class="card-img">
+          ${media(p)}
+          <span class="tag">${esc(CATEGORIES.find(c => c[0] === p.category)?.[1] || p.category)}</span>
+        </div>
         <div class="card-body">
-          <span class="hi">${esc(p.hindi)}</span>
+          <span class="hi">${esc(p.hindi || "")}</span>
           <h3>${esc(p.name)}</h3>
           <p>${esc(p.desc)}</p>
           <div class="card-foot">
@@ -110,12 +124,14 @@
     $("#empty").hidden = list.length > 0;
     observeReveals();
   }
+
   $("#grid").addEventListener("click", e => {
     const b = e.target.closest("[data-add]"); if (!b) return;
     addToCart(b.dataset.add);
     b.textContent = "Added ✓"; b.classList.add("added");
     setTimeout(() => { b.textContent = "Add +"; b.classList.remove("added"); }, 1200);
   });
+
   // 3D tilt on cards
   $("#grid").addEventListener("pointermove", e => {
     if (paused || e.pointerType === "touch") return;
@@ -126,21 +142,215 @@
   });
   $("#grid").addEventListener("pointerout", e => { const c = e.target.closest(".card"); if (c) c.style.transform = ""; });
 
+  /* ---------- Interactive Custom Bouquet Builder ---------- */
+  const customState = {
+    sizeId: "classic",
+    flowerIds: ["red-roses", "white-lilies"],
+    wrapId: "korean-pink",
+    extraIds: ["note"]
+  };
+
+  const bouquetSizeImages = {
+    mini: "images/products/PicsArt_09-03-10.40.24.jpg",
+    classic: "images/products/PicsArt_02-24-05.38.41.jpg",
+    luxe: "images/products/PicsArt_08-19-01.20.47.jpg",
+    royal: "images/products/PicsArt_11-08-11.59.23.jpg"
+  };
+
+  function initBouquetBuilder() {
+    if (!CUSTOM_BOUQUET_OPTIONS || !$("#bSizes")) return;
+
+    // Render Sizes
+    $("#bSizes").innerHTML = CUSTOM_BOUQUET_OPTIONS.sizes.map(s => `
+      <div class="b-opt-card size-card ${s.id === customState.sizeId ? "active" : ""}" data-size="${s.id}">
+        <div class="opt-head"><b>${esc(s.name)}</b> <span class="opt-badge">${money(s.price)}</span></div>
+        <small>${s.stems} handcrafted stems</small>
+      </div>
+    `).join("");
+
+    // Render Flower choices
+    $("#bFlowers").innerHTML = CUSTOM_BOUQUET_OPTIONS.flowers.map(f => {
+      const isSel = customState.flowerIds.includes(f.id);
+      return `
+        <div class="b-chip-opt ${isSel ? "active" : ""}" data-flower="${f.id}">
+          <span class="color-dot" style="background:${f.color}"></span>
+          <span>${esc(f.name)}</span>
+        </div>
+      `;
+    }).join("");
+
+    // Render Wraps
+    $("#bWraps").innerHTML = CUSTOM_BOUQUET_OPTIONS.wraps.map(w => `
+      <div class="b-opt-card wrap-card ${w.id === customState.wrapId ? "active" : ""}" data-wrap="${w.id}">
+        <b>${esc(w.name)}</b>
+        <small>${esc(w.desc)}</small>
+      </div>
+    `).join("");
+
+    // Render Extras
+    $("#bExtras").innerHTML = CUSTOM_BOUQUET_OPTIONS.extras.map(x => {
+      const isChecked = customState.extraIds.includes(x.id);
+      return `
+        <label class="b-extra-opt ${isChecked ? "active" : ""}">
+          <input type="checkbox" data-extra="${x.id}" ${isChecked ? "checked" : ""}>
+          <span>${esc(x.name)}</span>
+          <b>${x.price ? "+ " + money(x.price) : "Included"}</b>
+        </label>
+      `;
+    }).join("");
+
+    updateBuilderPreview();
+  }
+
+  function calculateBuilderPrice() {
+    const size = CUSTOM_BOUQUET_OPTIONS.sizes.find(s => s.id === customState.sizeId) || CUSTOM_BOUQUET_OPTIONS.sizes[1];
+    let sum = size.price;
+    customState.extraIds.forEach(eid => {
+      const ext = CUSTOM_BOUQUET_OPTIONS.extras.find(x => x.id === eid);
+      if (ext && ext.price) sum += ext.price;
+    });
+    return sum;
+  }
+
+  function updateBuilderPreview() {
+    const size = CUSTOM_BOUQUET_OPTIONS.sizes.find(s => s.id === customState.sizeId) || CUSTOM_BOUQUET_OPTIONS.sizes[1];
+    const wrap = CUSTOM_BOUQUET_OPTIONS.wraps.find(w => w.id === customState.wrapId) || CUSTOM_BOUQUET_OPTIONS.wraps[0];
+    const selFlowers = customState.flowerIds.map(fid => CUSTOM_BOUQUET_OPTIONS.flowers.find(f => f.id === fid)?.name).filter(Boolean);
+
+    $("#builderTitle").textContent = `${size.name.split(" ")[0]} Custom Paper Bouquet`;
+    $("#builderSub").textContent = `${selFlowers.join(", ") || "Custom Flower Mix"} · ${wrap.name}`;
+    $("#builderPrice").textContent = money(calculateBuilderPrice());
+    $("#builderImg").src = bouquetSizeImages[customState.sizeId] || bouquetSizeImages.classic;
+  }
+
+  // Builder event delegations
+  if ($("#builderForm")) {
+    $("#builderForm").addEventListener("click", e => {
+      // Size clicked
+      const sizeCard = e.target.closest("[data-size]");
+      if (sizeCard) {
+        customState.sizeId = sizeCard.dataset.size;
+        $$(".size-card", $("#bSizes")).forEach(c => c.classList.toggle("active", c === sizeCard));
+        updateBuilderPreview();
+        return;
+      }
+
+      // Flower clicked
+      const flChip = e.target.closest("[data-flower]");
+      if (flChip) {
+        const fid = flChip.dataset.flower;
+        if (customState.flowerIds.includes(fid)) {
+          if (customState.flowerIds.length > 1) {
+            customState.flowerIds = customState.flowerIds.filter(id => id !== fid);
+            flChip.classList.remove("active");
+          }
+        } else {
+          if (customState.flowerIds.length < 3) {
+            customState.flowerIds.push(fid);
+            flChip.classList.add("active");
+          } else {
+            // Replace oldest
+            const removed = customState.flowerIds.shift();
+            customState.flowerIds.push(fid);
+            $(`[data-flower="${removed}"]`)?.classList.remove("active");
+            flChip.classList.add("active");
+          }
+        }
+        updateBuilderPreview();
+        return;
+      }
+
+      // Wrap clicked
+      const wrapCard = e.target.closest("[data-wrap]");
+      if (wrapCard) {
+        customState.wrapId = wrapCard.dataset.wrap;
+        $$(".wrap-card", $("#bWraps")).forEach(c => c.classList.toggle("active", c === wrapCard));
+        updateBuilderPreview();
+        return;
+      }
+
+      // Extras checkbox changed
+      const extraInput = e.target.closest("input[data-extra]");
+      if (extraInput) {
+        const eid = extraInput.dataset.extra;
+        if (extraInput.checked) {
+          if (!customState.extraIds.includes(eid)) customState.extraIds.push(eid);
+        } else {
+          customState.extraIds = customState.extraIds.filter(id => id !== eid);
+        }
+        extraInput.closest(".b-extra-opt").classList.toggle("active", extraInput.checked);
+        updateBuilderPreview();
+      }
+    });
+
+    // Add custom bouquet to basket
+    $("#addCustomBouquetBtn").addEventListener("click", () => {
+      const size = CUSTOM_BOUQUET_OPTIONS.sizes.find(s => s.id === customState.sizeId) || CUSTOM_BOUQUET_OPTIONS.sizes[1];
+      const wrap = CUSTOM_BOUQUET_OPTIONS.wraps.find(w => w.id === customState.wrapId) || CUSTOM_BOUQUET_OPTIONS.wraps[0];
+      const selFlowers = customState.flowerIds.map(fid => CUSTOM_BOUQUET_OPTIONS.flowers.find(f => f.id === fid)?.name).filter(Boolean);
+      const selExtras = customState.extraIds.map(eid => CUSTOM_BOUQUET_OPTIONS.extras.find(x => x.id === eid)?.name).filter(Boolean);
+      const cardNote = ($("#builderNote")?.value || "").trim();
+
+      const customId = `custom-b-${Date.now()}`;
+      const itemPrice = calculateBuilderPrice();
+      const customItem = {
+        id: customId,
+        name: `Custom Bouquet (${size.name.split(" ")[0]})`,
+        hindi: "कस्टम गुलदस्ता",
+        category: "bouquet",
+        price: itemPrice,
+        unit: `${size.stems} paper flowers · ${wrap.name}`,
+        img: bouquetSizeImages[customState.sizeId] || bouquetSizeImages.classic,
+        desc: `Flowers: ${selFlowers.join(", ")} | Extras: ${selExtras.join(", ") || "None"}${cardNote ? ` | Card: "${cardNote}"` : ""}`,
+        isCustom: true
+      };
+
+      customItems[customId] = customItem;
+      safeLS.set("pb-custom-items", JSON.stringify(customItems));
+
+      addToCart(customId);
+      const btn = $("#addCustomBouquetBtn");
+      btn.textContent = "Added to Basket ✓ 🌸";
+      btn.classList.add("added");
+      setTimeout(() => {
+        btn.textContent = "Add Custom Bouquet to Basket 🌸";
+        btn.classList.remove("added");
+      }, 1500);
+
+      // Open cart drawer so user sees their custom bouquet
+      setTimeout(() => {
+        openCart();
+      }, 400);
+    });
+  }
+
   /* ---------- Other sections ---------- */
   $("#langGrid").innerHTML = FLOWER_LANGUAGE.map(([n, m], i) => {
     const cols = [["#c2185b", "#f8d66d"], ["#fff4f0", "#e9a53a"], ["#f7b500", "#5b3a1a"], ["#ff8a00", "#c25a00"], ["#fffaf0", "#f1d98a"], ["#f27aa6", "#f9d64a"]][i % 6];
     return `<div class="lang-c reveal d${i % 4}">${flowerSVG(cols[0], cols[1], 7)}<h3>${n}</h3><p>${m}</p></div>`;
   }).join("");
   $("#occ").innerHTML = OCCASIONS.map(([t, d], i) => `<div class="occ-c reveal d${i % 4}" data-n="0${i + 1}"><h3>${t}</h3><p>${d}</p></div>`).join("");
-  const instaCols = [["#b3123f", "#f4c542"], ["#f7b500", "#5b3a1a"], ["#fff4f0", "#e9a53a"], ["#ff8a00", "#c25a00"], ["#e86c9a", "#f7d56b"], ["#2a9d8f", "#f4e285"]];
-  // To show real photos: replace each flowerSVG(...) with <img src="images/ig1.jpg" alt="">
-  $("#instaGrid").innerHTML = instaCols.map(c => `<a class="reveal" href="${SITE.instagramUrl}" target="_blank" rel="noopener" aria-label="Open Instagram">${flowerSVG(c[0], c[1], 8)}</a>`).join("");
+  
+  // Real photos in Instagram showcase
+  const instaImages = [
+    "images/products/PicsArt_02-24-05.43.27.jpg",
+    "images/products/PicsArt_04-19-09.43.39.jpg",
+    "images/products/PicsArt_04-29-10.52.49.jpg",
+    "images/products/PicsArt_06-11-02.58.42.jpg",
+    "images/products/PicsArt_08-19-01.20.47.jpg",
+    "images/products/PicsArt_11-08-11.59.23.jpg"
+  ];
+  $("#instaGrid").innerHTML = instaImages.map(src => `
+    <a class="reveal" href="${SITE.instagramUrl}" target="_blank" rel="noopener" aria-label="Open Instagram">
+      <img src="${src}" alt="Paper Blossom on Instagram" loading="lazy">
+    </a>
+  `).join("");
   $("#igHandle").textContent = SITE.instagramHandle;
 
   /* ---------- Links / contact ---------- */
   const waBase = () => /^\d{8,15}$/.test(SITE.whatsappNumber) ? `https://wa.me/${SITE.whatsappNumber}` : "https://wa.me/";
-  const hello = encodeURIComponent("Hi Paper Blossom! I'd like to know more about your flowers.");
-  const custom = encodeURIComponent("Hi Paper Blossom! I'd like to ask about a custom flower order.");
+  const hello = encodeURIComponent("Hi Paper Blossom! I'd like to know more about your handcrafted paper flowers.");
+  const custom = encodeURIComponent("Hi Paper Blossom! I'd like to ask about a custom paper bouquet order.");
   ["#footWa", "#floatWa"].forEach(s => {
     const el = $(s);
     if (el) el.href = `${waBase()}?text=${hello}`;
@@ -159,26 +369,52 @@
   try { cart = JSON.parse(safeLS.get("pb-cart") || "{}") || {}; } catch { cart = {}; }
   Object.keys(cart).forEach(id => { if (!byId(id) || !(cart[id] > 0)) delete cart[id]; });
   const save = () => safeLS.set("pb-cart", JSON.stringify(cart));
-  const total = () => Object.entries(cart).reduce((s, [id, n]) => s + byId(id).price * n, 0);
+  const total = () => Object.entries(cart).reduce((s, [id, n]) => {
+    const item = byId(id);
+    return s + (item ? item.price * n : 0);
+  }, 0);
   const count = () => Object.values(cart).reduce((s, n) => s + n, 0);
 
-  function addToCart(id) { cart[id] = (cart[id] || 0) + 1; save(); renderCart(); const b = $("#cartBtn"); b.classList.remove("bump"); void b.offsetWidth; b.classList.add("bump"); }
+  function addToCart(id) {
+    cart[id] = (cart[id] || 0) + 1;
+    save();
+    renderCart();
+    const b = $("#cartBtn");
+    b.classList.remove("bump");
+    void b.offsetWidth;
+    b.classList.add("bump");
+  }
+
   function renderCart() {
     const ids = Object.keys(cart);
     $("#cartCount").textContent = count();
     $("#cartList").innerHTML = ids.map(id => {
       const p = byId(id), n = cart[id];
+      if (!p) return "";
       return `<li class="ci">
         <div class="ci-img">${media(p)}</div>
-        <div><h5>${esc(p.name)}</h5><small>${esc(p.unit)} · ${money(p.price)}</small>
-          <div class="qty"><button data-dec="${id}" aria-label="Less">−</button><span>${n}</span><button data-inc="${id}" aria-label="More">+</button></div></div>
-        <div class="ci-price">${money(p.price * n)}<button class="ci-rm" data-rm="${id}">Remove</button></div></li>`;
+        <div>
+          <h5>${esc(p.name)}</h5>
+          <small>${esc(p.unit)} · ${money(p.price)}</small>
+          ${p.desc && p.isCustom ? `<p class="ci-custom-desc">${esc(p.desc)}</p>` : ""}
+          <div class="qty">
+            <button data-dec="${id}" aria-label="Less">−</button>
+            <span>${n}</span>
+            <button data-inc="${id}" aria-label="More">+</button>
+          </div>
+        </div>
+        <div class="ci-price">
+          ${money(p.price * n)}
+          <button class="ci-rm" data-rm="${id}">Remove</button>
+        </div>
+      </li>`;
     }).join("");
     $("#cartEmpty").hidden = ids.length > 0;
     $("#cartTotalWrap").hidden = !ids.length;
     $("#cartTotal").textContent = money(total());
     $("#toCheckout").disabled = !ids.length;
   }
+
   $("#cartList").addEventListener("click", e => {
     const t = e.target.closest("button"); if (!t) return;
     const id = t.dataset.inc || t.dataset.dec || t.dataset.rm; if (!id) return;
@@ -218,19 +454,27 @@
 
     const lines = Object.entries(cart).map(([id, n], i) => {
       const p = byId(id);
-      return `${i + 1}. ${p.name} (${p.unit}) × ${n} = ${money(p.price * n)}`;
-    });
+      if (!p) return "";
+      let itemLine = `${i + 1}. *${p.name}* (${p.unit}) × ${n} = ${money(p.price * n)}`;
+      if (p.isCustom && p.desc) {
+        itemLine += `\n   ↳ _${p.desc}_`;
+      }
+      return itemLine;
+    }).filter(Boolean);
+
     const msg = [
-      `🌸 *New order — ${SITE.brand}*`, "",
-      "*Flowers*", ...lines, "",
-      `*Estimated total:* ${money(total())}`, "",
-      "*Customer*",
-      `Name: ${f.name.trim()}`,
-      `Mobile: ${phone}`,
-      `Address: ${f.address.trim()}, ${f.city.trim()} - ${f.pin}`,
-      `Delivery date: ${f.date}`,
-      `Occasion: ${f.occasion}`,
-      f.note.trim() ? `Note: ${f.note.trim()}` : "",
+      `🌸 *New Handcrafted Paper Floral Order — ${SITE.brand}*`, "",
+      "*Ordered Items:*", ...lines, "",
+      `*Estimated Total:* ${money(total())}`, "",
+      "*Delivery Details:*",
+      `• Name: ${f.name.trim()}`,
+      `• Mobile: ${phone}`,
+      `• Address: ${f.address.trim()}, ${f.city.trim()} - ${f.pin}`,
+      `• Delivery Date: ${f.date}`,
+      `• Occasion: ${f.occasion}`,
+      f.note.trim() ? `• Special Request / Note: ${f.note.trim()}` : "",
+      "",
+      `_Handled with love by ${SITE.handledBy}_ 🌸`
     ].filter((l, i, a) => l !== "" || a[i - 1] !== "").join("\n");
 
     window.open(`${waBase()}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
@@ -337,7 +581,10 @@
 
   /* ---------- Init ---------- */
   setTheme(theme);
-  renderGrid(); renderCart(); showView("cart");
+  renderGrid();
+  initBouquetBuilder();
+  renderCart();
+  showView("cart");
   observeReveals();
   setPaused(paused);
 })();
