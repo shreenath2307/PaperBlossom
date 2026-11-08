@@ -295,7 +295,14 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; line-height
 @media (max-width: 560px) {
   .logo span:last-child { display: none; }
   .lang-grid { grid-template-columns: 1fr; }
-  .themes { padding: 4px; } .section { padding: 70px 18px; }
+  .themes { padding: 4px; } .section { padding: 60px 18px; }
+  .filters { flex-direction: column; align-items: stretch; gap: 12px; }
+  .chips { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 6px; -webkit-overflow-scrolling: touch; }
+  .chip { flex-shrink: 0; }
+  #search { width: 100%; min-width: 0; }
+  .row2 { grid-template-columns: 1fr; }
+  .cta { flex-direction: column; }
+  .cta .btn { width: 100%; text-align: center; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
