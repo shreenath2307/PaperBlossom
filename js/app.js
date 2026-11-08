@@ -92,27 +92,114 @@
   });
   $("#search").addEventListener("input", e => { q = e.target.value.trim().toLowerCase(); renderGrid(); });
 
+  function renderAnthuriumSpotlight() {
+    const el = $("#anthuriumSpotlight");
+    if (!el || typeof ANTHURIUM_INFO === "undefined") return;
+    const info = ANTHURIUM_INFO;
+    el.innerHTML = `
+      <div class="spotlight-head">
+        <div>
+          <span class="spotlight-kicker">Flower Spotlight</span>
+          <h3>🔶 Anthurium Collection</h3>
+          <p class="spotlight-desc">${esc(info.description)}</p>
+        </div>
+        <div class="spotlight-moq-badge">MOQ: 5 pcs (same colour &amp; size)</div>
+      </div>
+
+      <div class="spotlight-specs-row">
+        <div class="spec-i"><b>Material:</b> <span>${esc(info.material)}</span></div>
+        <div class="spec-i"><b>Flower Size:</b> <span>${esc(info.size)}</span></div>
+        <div class="spec-i"><b>Stem Height:</b> <span>${esc(info.stem)}</span></div>
+        <div class="spec-i"><b>Colours:</b> <span>${esc(info.colorsNote)}</span></div>
+      </div>
+
+      <div class="spotlight-pricing-grid">
+        <div class="pricing-card">
+          <div class="pc-head">
+            <h4>${esc(info.plain.title)}</h4>
+            <span class="pc-price">₹${info.plain.price} <small>/ flower</small></span>
+          </div>
+          <div class="pc-moq">MOQ: ${esc(info.plain.moq)}</div>
+          <div class="pc-tiers-label">Bulk Pricing:</div>
+          <div class="pc-tiers">
+            ${info.plain.tiers.map(t => `
+              <div class="pc-tier-row"><span>${t.qty}</span><b>${t.rate}</b></div>
+            `).join("")}
+          </div>
+        </div>
+
+        <div class="pricing-card shaded">
+          <div class="pc-head">
+            <h4>${esc(info.shaded.title)}</h4>
+            <span class="pc-price">₹${info.shaded.price} <small>/ flower</small></span>
+          </div>
+          <div class="pc-moq">MOQ: ${esc(info.shaded.moq)}</div>
+          <div class="pc-tiers-label">Bulk Pricing:</div>
+          <div class="pc-tiers">
+            ${info.shaded.tiers.map(t => `
+              <div class="pc-tier-row"><span>${t.qty}</span><b>${t.rate}</b></div>
+            `).join("")}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
   function renderGrid() {
     const list = PRODUCTS.filter(p =>
       (filter === "all" || p.category === filter) &&
       (!q || (p.name + " " + (p.hindi || "") + " " + p.category + " " + p.desc).toLowerCase().includes(q)));
 
-    $("#grid").innerHTML = list.map((p, i) => `
-      <article class="card reveal" style="transition-delay:${Math.min(i, 6) * 60}ms" data-id="${p.id}">
+    const showSpotlight = filter === "anthurium" || (q && "anthurium".includes(q));
+    const banner = $("#anthuriumSpotlight");
+    if (banner) {
+      banner.hidden = !showSpotlight;
+      if (showSpotlight) renderAnthuriumSpotlight();
+    }
+
+    $("#grid").innerHTML = list.map((p, i) => {
+      const isAnth = p.category === "anthurium" || Boolean(p.bulkPricing);
+      const inCart = cart[p.id] || 0;
+      return `
+      <article class="card reveal ${isAnth ? "card-anthurium" : ""}" style="transition-delay:${Math.min(i, 6) * 60}ms" data-id="${p.id}">
         <div class="card-img">
           ${media(p)}
           <span class="tag">${esc(CATEGORIES.find(c => c[0] === p.category)?.[1] || p.category)}</span>
+          ${isAnth && p.variantType ? `<span class="tag-variant">${esc(p.variantType)}</span>` : ""}
+          ${isAnth && p.moq ? `<span class="tag-moq">MOQ: ${p.moq} pcs</span>` : ""}
         </div>
         <div class="card-body">
           <span class="hi">${esc(p.hindi || "")}</span>
           <h3>${esc(p.name)}</h3>
           <p>${esc(p.desc)}</p>
+          ${isAnth && p.bulkPricing ? `
+            <div class="acb-box">
+              <div class="acb-head">
+                <span class="acb-title">Bulk Pricing Tiers</span>
+                <span class="acb-moq">MOQ 5 pcs</span>
+              </div>
+              <div class="acb-tiers">
+                ${p.bulkPricing.map(t => `
+                  <div class="acb-tier">
+                    <span class="acb-q">${t.qty}</span>
+                    <b class="acb-r">₹${t.price} <small>/pc</small></b>
+                  </div>
+                `).join("")}
+              </div>
+              <div class="acb-specs">
+                <span>✨ Shiny coating on extra fine crepe</span>
+                <span>📏 ~4.5″ × 3.5″ · Stem: ~12″</span>
+                <span>🎨 Available in all colours as per preference</span>
+              </div>
+            </div>
+          ` : ""}
           <div class="card-foot">
             <div class="price"><b>${money(p.price)}</b><small>${esc(p.unit)}</small></div>
-            <button class="add" data-add="${p.id}">Add +</button>
+            <button class="add" data-add="${p.id}">${isAnth && p.moq && !inCart ? `Add MOQ (${p.moq}) +` : "Add +"}</button>
           </div>
         </div>
-      </article>`).join("");
+      </article>`;
+    }).join("");
     $("#empty").hidden = list.length > 0;
     observeReveals();
   }
@@ -179,16 +266,29 @@
   try { cart = JSON.parse(safeLS.get("pb-cart") || "{}") || {}; } catch { cart = {}; }
   Object.keys(cart).forEach(id => { if (!byId(id) || !(cart[id] > 0)) delete cart[id]; });
   const save = () => safeLS.set("pb-cart", JSON.stringify(cart));
+
+  const getUnitPrice = (p, n) => {
+    if (!p) return 0;
+    if (p.bulkPricing && Array.isArray(p.bulkPricing)) {
+      const tier = p.bulkPricing.find(t => n >= t.min && (!t.max || n <= t.max));
+      if (tier) return tier.price;
+    }
+    return p.price;
+  };
+
   const total = () => Object.entries(cart).reduce((s, [id, n]) => {
     const item = byId(id);
-    return s + (item ? item.price * n : 0);
+    return s + (item ? getUnitPrice(item, n) * n : 0);
   }, 0);
   const count = () => Object.values(cart).reduce((s, n) => s + n, 0);
 
   function addToCart(id) {
-    cart[id] = (cart[id] || 0) + 1;
+    const p = byId(id);
+    const step = (p && p.moq && !cart[id]) ? p.moq : 1;
+    cart[id] = (cart[id] || 0) + step;
     save();
     renderCart();
+    renderGrid();
     const b = $("#cartBtn");
     b.classList.remove("bump");
     void b.offsetWidth;
@@ -201,11 +301,14 @@
     $("#cartList").innerHTML = ids.map(id => {
       const p = byId(id), n = cart[id];
       if (!p) return "";
+      const unitP = getUnitPrice(p, n);
+      const isDiscounted = unitP < p.price;
       return `<li class="ci">
         <div class="ci-img">${media(p)}</div>
         <div>
           <h5>${esc(p.name)}</h5>
-          <small>${esc(p.unit)} · ${money(p.price)}</small>
+          <small>${money(unitP)} / pc · ${esc(p.unit)}</small>
+          ${isDiscounted ? `<span class="ci-bulk-badge">Bulk rate applied: ₹${unitP}/pc</span>` : ""}
           <div class="qty">
             <button data-dec="${id}" aria-label="Less">−</button>
             <span>${n}</span>
@@ -213,7 +316,7 @@
           </div>
         </div>
         <div class="ci-price">
-          ${money(p.price * n)}
+          ${money(unitP * n)}
           <button class="ci-rm" data-rm="${id}">Remove</button>
         </div>
       </li>`;
@@ -227,10 +330,20 @@
   $("#cartList").addEventListener("click", e => {
     const t = e.target.closest("button"); if (!t) return;
     const id = t.dataset.inc || t.dataset.dec || t.dataset.rm; if (!id) return;
-    if (t.dataset.inc) cart[id]++;
-    else if (t.dataset.dec) { cart[id]--; if (cart[id] <= 0) delete cart[id]; }
-    else delete cart[id];
-    save(); renderCart();
+    const p = byId(id);
+    if (t.dataset.inc) {
+      cart[id]++;
+    } else if (t.dataset.dec) {
+      if (p && p.moq && cart[id] <= p.moq) {
+        delete cart[id];
+      } else {
+        cart[id]--;
+        if (cart[id] <= 0) delete cart[id];
+      }
+    } else {
+      delete cart[id];
+    }
+    save(); renderCart(); renderGrid();
     if (!count()) showView("cart");
   });
 
@@ -261,10 +374,17 @@
     if (!f.date) return err.textContent = "Please choose a delivery date.";
     err.textContent = "";
 
+    const hasAnthurium = Object.keys(cart).some(id => byId(id)?.category === "anthurium");
+
     const lines = Object.entries(cart).map(([id, n], i) => {
       const p = byId(id);
       if (!p) return "";
-      return `${i + 1}. *${p.name}* (${p.unit}) × ${n} = ${money(p.price * n)}`;
+      const unitP = getUnitPrice(p, n);
+      const isDiscounted = unitP < p.price;
+      const rateInfo = isDiscounted
+        ? ` (${n} pcs @ bulk rate ₹${unitP}/pc)`
+        : (p.moq ? ` (${n} pcs @ ₹${unitP}/pc, MOQ ${p.moq})` : ` (${p.unit}) × ${n}`);
+      return `${i + 1}. *${p.name}*${rateInfo} = ${money(unitP * n)}`;
     }).filter(Boolean);
 
     const msg = [
@@ -278,12 +398,13 @@
       `• Delivery Date: ${f.date}`,
       `• Occasion: ${f.occasion}`,
       f.note.trim() ? `• Special Request / Note: ${f.note.trim()}` : "",
+      hasAnthurium ? "• *Anthurium Customisation:* Handcrafted in your chosen colour & finish!" : "",
       "",
       `_Handled with love by ${SITE.handledBy}_ 🌸`
     ].filter((l, i, a) => l !== "" || a[i - 1] !== "").join("\n");
 
     window.open(`${waBase()}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
-    cart = {}; save(); renderCart(); e.target.reset(); showView("cart"); closeCart();
+    cart = {}; save(); renderCart(); renderGrid(); e.target.reset(); showView("cart"); closeCart();
   });
 
   /* ---------- Falling petals + pause ---------- */

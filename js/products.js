@@ -145,45 +145,87 @@ const PRODUCTS = [
   },
   {
     "id": "anthurium",
-    "name": "Anthurium",
+    "name": "Anthurium (Plain Colour)",
     "hindi": "एन्थ्यूरियम",
-    "category": "lily",
-    "price": 329,
-    "unit": "1 handcrafted stem",
+    "category": "anthurium",
+    "price": 320,
+    "unit": "per flower (MOQ 5 pcs)",
+    "moq": 5,
+    "variantType": "Plain colour",
     "img": "images/products/PicsArt_04-29-10.38.14.jpg",
     "colors": [
       "#f06292",
       "#ffb74d"
     ],
-    "desc": "Sculptural handcrafted paper anthurium flower with distinctive heart-shaped spathe and slender spadix."
+    "desc": "High quality extra fine crepe paper with shiny coating on flower. Flower size: approx. 4.5″ × 3.5″, stem height: approx. 12″. Lightweight and forever vibrant. Available in all colours as per your preference.",
+    "bulkPricing": [
+      { "qty": "1–9 pcs", "price": 320, "min": 1, "max": 9 },
+      { "qty": "10–49 pcs", "price": 300, "min": 10, "max": 49 },
+      { "qty": "50+ pcs", "price": 280, "min": 50 }
+    ],
+    "specs": {
+      "material": "High quality extra fine crepe paper with shiny coating on flower",
+      "size": "Approx. 4.5″ × 3.5″",
+      "stem": "Approx. 12″",
+      "moq": "5 piece (same colour and size)",
+      "colors": "Available in all colours as per your preference"
+    }
   },
   {
     "id": "red-anthurium",
-    "name": "Red Anthurium",
+    "name": "Red Anthurium (Plain Colour)",
     "hindi": "लाल एन्थ्यूरियम",
-    "category": "lily",
-    "price": 329,
-    "unit": "1 handcrafted stem",
+    "category": "anthurium",
+    "price": 320,
+    "unit": "per flower (MOQ 5 pcs)",
+    "moq": 5,
+    "variantType": "Plain colour",
     "img": "images/products/PicsArt_04-29-10.39.26.jpg",
     "colors": [
       "#d32f2f",
       "#ffeb3b"
     ],
-    "desc": "Vivid red paper anthurium featuring glossy textured paper finish and elegant contrasting spadix."
+    "desc": "Vibrant red plain colour anthurium in extra fine crepe paper with shiny coating. Flower: approx. 4.5″ × 3.5″, stem: approx. 12″. Available in all colours as per your preference.",
+    "bulkPricing": [
+      { "qty": "1–9 pcs", "price": 320, "min": 1, "max": 9 },
+      { "qty": "10–49 pcs", "price": 300, "min": 10, "max": 49 },
+      { "qty": "50+ pcs", "price": 280, "min": 50 }
+    ],
+    "specs": {
+      "material": "High quality extra fine crepe paper with shiny coating on flower",
+      "size": "Approx. 4.5″ × 3.5″",
+      "stem": "Approx. 12″",
+      "moq": "5 piece (same colour and size)",
+      "colors": "Available in all colours as per your preference"
+    }
   },
   {
     "id": "pinkish-white-anthurium",
-    "name": "pinkish white Anthurium",
+    "name": "pinkish white Anthurium (Shaded / Two tone)",
     "hindi": "गुलाबी सफेद एन्थ्यूरियम",
-    "category": "lily",
-    "price": 329,
-    "unit": "1 handcrafted stem",
+    "category": "anthurium",
+    "price": 360,
+    "unit": "per flower (MOQ 5 pcs)",
+    "moq": 5,
+    "variantType": "Shaded/Two tone",
     "img": "images/products/PicsArt_04-29-10.40.43.jpg",
     "colors": [
       "#fce4ec",
       "#ec407a"
     ],
-    "desc": "Delicate dual-toned paper anthurium blending soft white and gentle blush pink tones."
+    "desc": "Shaded two-tone paper anthurium blending soft pink and white with shiny coating. Flower: approx. 4.5″ × 3.5″, stem: approx. 12″. Available in all colours as per your preference.",
+    "bulkPricing": [
+      { "qty": "1–9 pcs", "price": 360, "min": 1, "max": 9 },
+      { "qty": "10–49 pcs", "price": 340, "min": 10, "max": 49 },
+      { "qty": "50+ pcs", "price": 320, "min": 50 }
+    ],
+    "specs": {
+      "material": "High quality extra fine crepe paper with shiny coating on flower",
+      "size": "Approx. 4.5″ × 3.5″",
+      "stem": "Approx. 12″",
+      "moq": "5 piece (same colour and size)",
+      "colors": "Available in all colours as per your preference"
+    }
   },
   {
     "id": "butterfly-pea",
@@ -316,10 +358,40 @@ const PRODUCTS = [
 const CATEGORIES = [
   ["all", "All"],
   ["rose", "Roses"],
-  ["lily", "Lilies & Anthuriums"],
+  ["anthurium", "Anthuriums"],
+  ["lily", "Lilies"],
   ["sunflower", "Sunflowers & Daisies"],
   ["exotic", "Exotic & Traditional"]
 ];
+
+/* Anthurium collection details & bulk pricing matrix */
+const ANTHURIUM_INFO = {
+  material: "High quality extra fine crepe paper with shiny coating on flower",
+  size: "Approx. 4.5″ × 3.5″",
+  stem: "Approx. 12″",
+  description: "These lightweight, long-lasting flowers are perfect for home decor, gifting, event decoration, or DIY arrangements. Unlike real flowers, they stay fresh and vibrant forever.",
+  colorsNote: "Available in all colours as per your preference",
+  plain: {
+    title: "Anthurium – Plain Colour",
+    price: 320,
+    moq: "5 piece (same colour and size)",
+    tiers: [
+      { qty: "1–9 pcs", rate: "₹320/- per pc", price: 320 },
+      { qty: "10–49 pcs", rate: "₹300/- per pc", price: 300 },
+      { qty: "50 or more pcs", rate: "₹280/- per pc", price: 280 }
+    ]
+  },
+  shaded: {
+    title: "Anthurium (Shaded / Two tone)",
+    price: 360,
+    moq: "5 piece (same colour and size)",
+    tiers: [
+      { qty: "1–9 pcs", rate: "₹360/- per pc", price: 360 },
+      { qty: "10–49 pcs", rate: "₹340/- per pc", price: 340 },
+      { qty: "50 or more pcs", rate: "₹320/- per pc", price: 320 }
+    ]
+  }
+};
 
 /* 'Every flower has a language' */
 const FLOWER_LANGUAGE = [
