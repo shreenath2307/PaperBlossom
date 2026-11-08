@@ -8,7 +8,7 @@ const SITE = {
   tagline: "Handcrafted paper flowers, arranged with love",
   whatsappNumber: "918850818776",
   phoneDisplay: "8850818776",
-  email: "paperblossom14@gmail.com",
+  email: "paperblossom.14@gmail.com",
   handledBy: "RUJUTA UTEKAR",
   instagramUrl: "https://www.instagram.com/paperblossom.14",
   instagramHandle: "@paperblossom.14",
@@ -32,10 +32,10 @@ const PRODUCTS = [
     "desc": "Our signature handmade crimson paper rose with delicate sculpted petals, wired green stem and leaves."
   },
   {
-    "id": "scarlet-rose-stem",
-    "name": "Classic Scarlet Rose",
-    "hindi": "गहरा लाल गुलाब",
-    "category": "rose",
+    "id": "gerbera-daisy",
+    "name": "Gerbera Daisy",
+    "hindi": "जरबेरा",
+    "category": "exotic",
     "price": 249,
     "unit": "1 handcrafted stem",
     "img": "images/products/PicsArt_04-29-10.52.49.jpg",
@@ -43,52 +43,24 @@ const PRODUCTS = [
       "#c61a38",
       "#382414"
     ],
-    "desc": "Vibrant red handcrafted paper rose with realistic sculpted petals, ideal for vases or gift boxes."
+    "desc": "Vibrant handcrafted Gerbera Daisy paper bloom with detailed layered petals and flexible stem."
   },
   {
-    "id": "ruby-rose-bud",
-    "name": "Ruby Rose Blossom",
-    "hindi": "रूबी गुलाब",
-    "category": "rose",
-    "price": 279,
-    "unit": "1 bloom stem",
-    "img": "images/products/PicsArt_04-29-10.51.44.jpg",
-    "colors": [
-      "#b01236",
-      "#3a2015"
-    ],
-    "desc": "Handcrafted deep ruby paper rose in mid-bloom with detailed calyx and flexible stem."
-  },
-  {
-    "id": "carmine-rose-trio",
-    "name": "Carmine Rose Stems",
-    "hindi": "कारमाइन गुलाब",
-    "category": "rose",
-    "price": 499,
-    "unit": "bunch of 2 stems",
+    "id": "hibiscus",
+    "name": "Hibiscus",
+    "hindi": "गुड़हल",
+    "category": "exotic",
+    "price": 349,
+    "unit": "1 handcrafted stem",
     "img": "images/products/PicsArt_06-09-10.22.57.jpg",
     "colors": [
       "#c2185b",
       "#2d4420"
     ],
-    "desc": "Pair of lush handcrafted red roses, perfect for table vases, pooja thalis, and intimate gifting."
+    "desc": "Exquisite handcrafted paper hibiscus with sculpted crimson petals and prominent golden-tipped stamen."
   },
   {
-    "id": "sweetheart-rose",
-    "name": "Sweetheart Paper Rose",
-    "hindi": "स्वीटहार्ट गुलाब",
-    "category": "rose",
-    "price": 269,
-    "unit": "1 handcrafted stem",
-    "img": "images/products/PicsArt_06-09-10.12.30.jpg",
-    "colors": [
-      "#d82b4a",
-      "#3d4f26"
-    ],
-    "desc": "Delicate curved-petal red rose crafted from high-grade Italian crepe paper with realistic veining."
-  },
-  {
-    "id": "wine-paper-rose",
+    "id": "wine-rose",
     "name": "Royal Wine Rose",
     "hindi": "वाइन लाल गुलाब",
     "category": "rose",
@@ -99,580 +71,255 @@ const PRODUCTS = [
       "#88102a",
       "#415222"
     ],
-    "desc": "Rich wine-tinted petals with handcrafted paper leaves, forever preserving your memorable moments."
+    "desc": "Deep wine-red paper rose with velvety textured petals, wired stem and naturalistic sepals."
   },
   {
-    "id": "petite-red-rose",
-    "name": "Petite Crimson Stem",
-    "hindi": "छोटा लाल गुलाब",
-    "category": "rose",
-    "price": 199,
-    "unit": "1 single stem",
+    "id": "red-tulip",
+    "name": "RED TULIP",
+    "hindi": "लाल ट्यूलिप",
+    "category": "exotic",
+    "price": 279,
+    "unit": "1 handcrafted stem",
     "img": "images/products/PicsArt_11-08-11.59.44.jpg",
     "colors": [
-      "#bf1a35",
-      "#405523"
+      "#d32f2f",
+      "#388e3c"
     ],
-    "desc": "Charming single-stem petite red rose, ideal for book gifts, dinner settings, and minimal vases."
+    "desc": "Handcrafted graceful red tulip with smooth curved paper petals on a slender green stem."
   },
   {
-    "id": "burgundy-bloom",
-    "name": "Burgundy Garden Rose",
-    "hindi": "गहरा गुलाब",
-    "category": "rose",
-    "price": 289,
+    "id": "golden-champa",
+    "name": "Golden Champa",
+    "hindi": "सोनचाफा",
+    "category": "exotic",
+    "price": 299,
     "unit": "1 handcrafted stem",
-    "img": "images/products/PicsArt_11-08-11.56.19.jpg",
-    "colors": [
-      "#7f1734",
-      "#3a481c"
-    ],
-    "desc": "Full double-petal handcrafted rose inspired by traditional English garden blooms."
-  },
-  {
-    "id": "golden-sunflower",
-    "name": "Golden Sunlight Sunflower",
-    "hindi": "सूरजमुखी",
-    "category": "sunflower",
-    "price": 349,
-    "unit": "1 large handcrafted bloom",
     "img": "images/products/PicsArt_04-19-09.43.39.jpg",
     "colors": [
       "#f5b81c",
-      "#5b3a1a"
+      "#5c4033"
     ],
-    "desc": "Vibrant golden-yellow sunflower with textured dark centre and realistic handcrafted foliage."
+    "desc": "Artisan handcrafted Golden Champa (Sonchafa) bloom in warm golden paper with delicate curved petals."
   },
   {
-    "id": "marigold-sunburst",
-    "name": "Sunburst Marigold Bloom",
-    "hindi": "गेंदा पुष्प",
-    "category": "sunflower",
-    "price": 229,
-    "unit": "1 handcrafted flower",
-    "img": "images/products/PicsArt_12-30-11.14.54.jpg",
-    "colors": [
-      "#ff9a00",
-      "#804000"
-    ],
-    "desc": "Multi-layered ruffled paper flower in bright saffron and mustard tones, celebrating festive traditions."
-  },
-  {
-    "id": "amber-sunflower-mini",
-    "name": "Amber Sunflower Stem",
-    "hindi": "छोटा सूरजमुखी",
+    "id": "sunlight-sunflower",
+    "name": "Sunlight sunflower",
+    "hindi": "सूरजमुखी",
     "category": "sunflower",
     "price": 299,
-    "unit": "1 bloom stem",
+    "unit": "1 large bloom stem",
+    "img": "images/products/PicsArt_12-30-11.14.54.jpg",
+    "colors": [
+      "#fbc02d",
+      "#3e2723"
+    ],
+    "desc": "Vibrant yellow paper sunflower with an intricate textured dark center disc and lifelike foliage."
+  },
+  {
+    "id": "yellow-rose",
+    "name": "Yellow rose",
+    "hindi": "पीला गुलाब",
+    "category": "rose",
+    "price": 269,
+    "unit": "1 handcrafted stem",
     "img": "images/products/PicsArt_06-11-03.07.50.jpg",
     "colors": [
-      "#f7b500",
-      "#4e3015"
+      "#fdd835",
+      "#558b2f"
     ],
-    "desc": "Warm yellow paper petals radiating around a detailed textured florets core."
+    "desc": "Radiant yellow handcrafted paper rose symbolizing warmth, friendship, and bright joy."
   },
   {
-    "id": "ochre-sunflower-duo",
-    "name": "Ochre Sunflower Twig",
-    "hindi": "पीला सूरजमुखी",
+    "id": "daisy",
+    "name": "Daisy",
+    "hindi": "डेज़ी",
     "category": "sunflower",
-    "price": 449,
-    "unit": "set of 2 flowers",
+    "price": 249,
+    "unit": "1 handcrafted stem",
     "img": "images/products/PicsArt_04-11-12.55.34.jpg",
     "colors": [
-      "#e5a017",
-      "#4b351d"
+      "#ffffff",
+      "#fbc02d"
     ],
-    "desc": "Sunny handcrafted paper flowers adding an enduring burst of optimism to any desk or mantelpiece."
+    "desc": "Charming handcrafted paper daisy with neat white petals radiating from a sunny yellow center."
   },
   {
-    "id": "blush-oriental-lily",
-    "name": "Blush Oriental Lily",
-    "hindi": "गुलाबी कुमुद",
+    "id": "anthurium",
+    "name": "Anthurium",
+    "hindi": "एन्थ्यूरियम",
     "category": "lily",
-    "price": 399,
-    "unit": "1 handcrafted stem with bud",
+    "price": 329,
+    "unit": "1 handcrafted stem",
     "img": "images/products/PicsArt_04-29-10.38.14.jpg",
     "colors": [
-      "#e88299",
-      "#d9b04f"
+      "#f06292",
+      "#ffb74d"
     ],
-    "desc": "Graceful flared petals in soft blush rose with handcrafted stamens and realistic bud accent."
+    "desc": "Sculptural handcrafted paper anthurium flower with distinctive heart-shaped spathe and slender spadix."
   },
   {
-    "id": "coral-lily-bloom",
-    "name": "Coral Dawn Lily",
-    "hindi": "मूंगा कुमुद",
+    "id": "red-anthurium",
+    "name": "Red Anthurium",
+    "hindi": "लाल एन्थ्यूरियम",
     "category": "lily",
-    "price": 389,
-    "unit": "1 handmade stem",
-    "img": "images/products/PicsArt_04-29-10.38.32.jpg",
-    "colors": [
-      "#f27289",
-      "#e29f3d"
-    ],
-    "desc": "Exquisite trumpet lily sculpted in warm coral and berry-pink tones with natural paper grain."
-  },
-  {
-    "id": "pearl-white-lily",
-    "name": "Pearl White Lily",
-    "hindi": "सफेद कुमुद",
-    "category": "lily",
-    "price": 369,
-    "unit": "1 pristine stem",
+    "price": 329,
+    "unit": "1 handcrafted stem",
     "img": "images/products/PicsArt_04-29-10.39.26.jpg",
     "colors": [
-      "#fffdf8",
-      "#c9a24a"
+      "#d32f2f",
+      "#ffeb3b"
     ],
-    "desc": "Pure white handcrafted paper lily symbolizing elegance, renewal, and everlasting peace."
+    "desc": "Vivid red paper anthurium featuring glossy textured paper finish and elegant contrasting spadix."
   },
   {
-    "id": "petal-pink-lily",
-    "name": "Petal Pink Lily",
-    "hindi": "हल्का गुलाबी कुमुद",
+    "id": "pinkish-white-anthurium",
+    "name": "pinkish white Anthurium",
+    "hindi": "गुलाबी सफेद एन्थ्यूरियम",
     "category": "lily",
-    "price": 349,
-    "unit": "1 crafted stem",
-    "img": "images/products/PicsArt_04-29-10.37.10.jpg",
-    "colors": [
-      "#f09cb0",
-      "#deb258"
-    ],
-    "desc": "Delicate curved petals in tender rose quartz shades with long wired stem for custom positioning."
-  },
-  {
-    "id": "misty-lily-bud",
-    "name": "Misty Lilac Lily",
-    "hindi": "लैवेंडर कुमुद",
-    "category": "lily",
-    "price": 379,
-    "unit": "1 floral stem",
+    "price": 329,
+    "unit": "1 handcrafted stem",
     "img": "images/products/PicsArt_04-29-10.40.43.jpg",
     "colors": [
-      "#d195ba",
-      "#cca146"
+      "#fce4ec",
+      "#ec407a"
     ],
-    "desc": "Subtle lavender-flushed paper petals with realistic botanical details and natural curl."
+    "desc": "Delicate dual-toned paper anthurium blending soft white and gentle blush pink tones."
   },
   {
-    "id": "royal-violet-orchid",
-    "name": "Royal Indigo Orchid",
-    "hindi": "नीलम ऑर्किड",
+    "id": "butterfly-pea",
+    "name": "Butterfly Pea",
+    "hindi": "अपराजिता",
     "category": "exotic",
-    "price": 429,
-    "unit": "1 sculpted bloom",
+    "price": 289,
+    "unit": "1 handcrafted stem",
     "img": "images/products/PicsArt_04-25-08.22.26.jpg",
     "colors": [
-      "#4d3ea2",
-      "#eed164"
+      "#1a237e",
+      "#3949ab"
     ],
-    "desc": "Deep indigo and periwinkle paper petals crafted with sculptural precision and velvety depth."
+    "desc": "Traditional Aparajita (Butterfly Pea) paper bloom in striking deep royal blue with sculpted petal form."
   },
   {
-    "id": "sapphire-orchid-stem",
-    "name": "Sapphire Blossom Spray",
-    "hindi": "नीला पुष्प",
-    "category": "exotic",
-    "price": 449,
-    "unit": "1 floral branch",
-    "img": "images/products/PicsArt_04-25-08.23.25.jpg",
-    "colors": [
-      "#3d4fb5",
-      "#f4dc79"
-    ],
-    "desc": "Striking blue-violet handcrafted petals, an artistic centerpiece for contemporary home interiors."
-  },
-  {
-    "id": "amethyst-paper-orchid",
-    "name": "Amethyst Floral Bloom",
-    "hindi": "बैंगनी पुष्प",
-    "category": "exotic",
-    "price": 399,
-    "unit": "1 stem",
-    "img": "images/products/PicsArt_04-25-08.23.45.jpg",
-    "colors": [
-      "#6742a8",
-      "#f7e285"
-    ],
-    "desc": "Graceful arching exotic petals in vivid amethyst hues that never fade or wilt."
-  },
-  {
-    "id": "magenta-peony",
-    "name": "Magenta Velvet Peony",
-    "hindi": "मजेंटा पियोनी",
-    "category": "exotic",
-    "price": 449,
-    "unit": "1 full ruffled bloom",
+    "id": "magenta-velvet-rose",
+    "name": "Magenta Velvet Rose",
+    "hindi": "मजेंटा गुलाब",
+    "category": "rose",
+    "price": 299,
+    "unit": "1 handcrafted stem",
     "img": "images/products/PicsArt_05-09-10.47.05.jpg",
     "colors": [
-      "#ad1769",
-      "#eac452"
+      "#ad1457",
+      "#2e7d32"
     ],
-    "desc": "Lavish handcrafted paper peony with dozens of gathered ruffles in rich royal magenta."
+    "desc": "Rich magenta velvet paper rose with lush contoured petals handcrafted from premium crepe."
   },
   {
-    "id": "orchid-plum-bloom",
-    "name": "Plum Blossom Branch",
-    "hindi": "प्लम पुष्प",
-    "category": "exotic",
-    "price": 389,
-    "unit": "1 stem",
-    "img": "images/products/PicsArt_05-09-10.45.58.jpg",
-    "colors": [
-      "#9c3475",
-      "#f2d47b"
-    ],
-    "desc": "Soft orchid-plum paper flowers with handcrafted central stamen accents on botanical wire."
-  },
-  {
-    "id": "flame-poppy-stem",
-    "name": "Fiery Flame Poppy",
-    "hindi": "अंगार पुष्प",
-    "category": "exotic",
-    "price": 349,
-    "unit": "1 stem",
+    "id": "fiery-rose",
+    "name": "Fiery rose",
+    "hindi": "अग्नि गुलाब",
+    "category": "rose",
+    "price": 289,
+    "unit": "1 handcrafted stem",
     "img": "images/products/PicsArt_06-11-03.04.02.jpg",
     "colors": [
-      "#e64a19",
-      "#2a1f18"
+      "#e65100",
+      "#ff6f00"
     ],
-    "desc": "Vibrant tangerine and scarlet paper petals that make an instant statement in any room."
+    "desc": "Striking fiery reddish-orange paper rose blooming with energetic warm hues."
   },
   {
-    "id": "apricot-wildflower",
+    "id": "apricot-wild-rose",
     "name": "Apricot Wild Rose",
     "hindi": "खुबानी गुलाब",
-    "category": "exotic",
-    "price": 319,
-    "unit": "1 branch",
+    "category": "rose",
+    "price": 279,
+    "unit": "1 handcrafted stem",
     "img": "images/products/PicsArt_06-11-03.06.53.jpg",
     "colors": [
-      "#e0714b",
-      "#4d5a22"
+      "#ff8a65",
+      "#4e342e"
     ],
-    "desc": "Warm coral-apricot tones with textured leaves and organic handmade curves."
+    "desc": "Gentle peach-apricot paper rose with organic fluted petals and realistic leaves."
   },
   {
-    "id": "cream-hydrangea-cluster",
-    "name": "Cream Vanilla Cluster",
-    "hindi": "सफेद पुष्पगुच्छ",
-    "category": "exotic",
-    "price": 359,
-    "unit": "1 cluster stem",
+    "id": "white-lily",
+    "name": "white lily",
+    "hindi": "सफेद लिली",
+    "category": "lily",
+    "price": 329,
+    "unit": "1 handcrafted stem",
     "img": "images/products/PicsArt_03-01-11.09.37.jpg",
     "colors": [
-      "#f5eedc",
-      "#788448"
+      "#ffffff",
+      "#fbc02d"
     ],
-    "desc": "Dense cluster of handmade paper florets in ivory and soft celadon greens."
+    "desc": "Pure white handcrafted paper lily with delicate petals and elegant stamens."
   },
   {
-    "id": "lavender-mist-cluster",
-    "name": "Lavender Pastel Cluster",
-    "hindi": "लैवेंडर गुच्छा",
+    "id": "parijat",
+    "name": "Parijat",
+    "hindi": "पारिजात",
     "category": "exotic",
-    "price": 359,
-    "unit": "1 cluster stem",
-    "img": "images/products/PicsArt_03-01-11.10.49.jpg",
-    "colors": [
-      "#d1c4e9",
-      "#6d558b"
-    ],
-    "desc": "Delicate pastel cluster of tiny hand-folded petals on a sturdy floral stem."
-  },
-  {
-    "id": "emerald-filler-foliage",
-    "name": "Handcrafted Botanical Greens",
-    "hindi": "पत्ते और टहनी",
-    "category": "exotic",
-    "price": 219,
-    "unit": "set of 3 leaf stems",
-    "img": "images/products/PicsArt_04-11-12.56.39.jpg",
-    "colors": [
-      "#386b36",
-      "#1d3b1c"
-    ],
-    "desc": "Wired botanical paper leaves and buds to accompany and accent any paper bouquet."
-  },
-  {
-    "id": "sweet-romance-bouquet",
-    "name": "Sweet Romance Paper Bouquet",
-    "hindi": "प्रेम पुष्पगुच्छ",
-    "category": "bouquet",
-    "price": 1299,
-    "unit": "hand-tied bouquet (7 blooms)",
-    "img": "images/products/PicsArt_02-24-05.43.27.jpg",
-    "colors": [
-      "#d94f7b",
-      "#f4c542"
-    ],
-    "desc": "Harmonious paper bouquet featuring handcrafted roses and lilies tied with satin ribbon."
-  },
-  {
-    "id": "pure-elegance-bouquet",
-    "name": "Pure Elegance Hand-Tied Bouquet",
-    "hindi": "सफेद व गुलाबी गुलदस्ता",
-    "category": "bouquet",
-    "price": 1499,
-    "unit": "deluxe bouquet (9 blooms)",
-    "img": "images/products/PicsArt_02-24-05.38.41.jpg",
-    "colors": [
-      "#fce4ec",
-      "#ad1457"
-    ],
-    "desc": "Statement handmade bouquet with layered wrapping, personalized note tag, and ribbon."
-  },
-  {
-    "id": "vintage-rose-bouquet",
-    "name": "Vintage Garden Bouquet",
-    "hindi": "विंटेज गुलदस्ता",
-    "category": "bouquet",
-    "price": 1399,
-    "unit": "medium bouquet (8 blooms)",
+    "price": 349,
+    "unit": "handcrafted arrangement",
     "img": "images/products/PicsArt_02-24-05.46.34.jpg",
     "colors": [
-      "#d87d6f",
-      "#4a3f35"
+      "#ffffff",
+      "#ff6f00"
     ],
-    "desc": "Warm sunset tones and soft neutrals hand-arranged for anniversaries and birthdays."
+    "desc": "Sacred night-blooming coral jasmine (Parijat / Harsingar) paper floral arrangement with distinctive orange stems and white petals."
   },
   {
-    "id": "sunshine-celebration-bouquet",
-    "name": "Sunshine Golden Bouquet",
-    "hindi": "धूप गुलदस्ता",
-    "category": "bouquet",
-    "price": 1599,
-    "unit": "grand bouquet (10 blooms)",
+    "id": "colorful-roses",
+    "name": "Colorful roses",
+    "hindi": "बहुरंगी गुलाब",
+    "category": "rose",
+    "price": 799,
+    "unit": "handcrafted bunch",
     "img": "images/products/PicsArt_06-11-02.58.42.jpg",
     "colors": [
-      "#f5b81c",
-      "#d94f7b"
+      "#e91e63",
+      "#fdd835"
     ],
-    "desc": "Cheery sunflowers, poppies, and filler paper florals in premium craft wrapping paper."
+    "desc": "Joyful cluster of handcrafted paper roses in assorted lively colors tied with ribbon."
   },
   {
-    "id": "blossom-dream-bouquet",
-    "name": "Blossom Dream Floral Wrap",
-    "hindi": "स्वप्न पुष्पगुच्छ",
-    "category": "bouquet",
-    "price": 1199,
-    "unit": "hand-tied bouquet",
+    "id": "cream-hibiscus",
+    "name": "Cream Hibiscus",
+    "hindi": "क्रीम गुड़हल",
+    "category": "exotic",
+    "price": 349,
+    "unit": "1 handcrafted bloom",
     "img": "images/products/PicsArt_08-02-11.37.26.jpg",
     "colors": [
-      "#e38ba8",
-      "#5b3a1a"
+      "#fff8e1",
+      "#8d6e63"
     ],
-    "desc": "Chic minimalist paper arrangement wrapped in matte eco-paper and jute twine."
+    "desc": "Subtle and graceful cream-colored handcrafted hibiscus paper flower with finely ruffled edges."
   },
   {
-    "id": "royal-artisan-bouquet",
-    "name": "Artisan Luxe Paper Bouquet",
-    "hindi": "शाही गुलदस्ता",
-    "category": "bouquet",
-    "price": 1899,
-    "unit": "luxury bouquet (12 blooms)",
-    "img": "images/products/PicsArt_08-19-01.20.47.jpg",
-    "colors": [
-      "#b3123f",
-      "#4d3ea2"
-    ],
-    "desc": "Our premier handcrafted arrangement featuring roses, orchids, and custom textured fillers."
-  },
-  {
-    "id": "warm-harmony-bouquet",
-    "name": "Warm Harmony Bouquet",
-    "hindi": "हार्मनी गुलदस्ता",
-    "category": "bouquet",
-    "price": 1249,
-    "unit": "hand-tied bouquet",
-    "img": "images/products/PicsArt_08-19-01.21.45.jpg",
-    "colors": [
-      "#e57373",
-      "#ffd54f"
-    ],
-    "desc": "Thoughtfully balanced palette of pinks, corals, and soft paper greens."
-  },
-  {
-    "id": "meadow-walk-bouquet",
-    "name": "Meadow Walk Floral Cone",
-    "hindi": "उपवन गुलदस्ता",
-    "category": "bouquet",
-    "price": 1099,
-    "unit": "cone bouquet (6 blooms)",
+    "id": "mogra",
+    "name": "Mogra",
+    "hindi": "मोगरा",
+    "category": "exotic",
+    "price": 299,
+    "unit": "handcrafted arrangement",
     "img": "images/products/PicsArt_09-03-10.40.24.jpg",
     "colors": [
-      "#f48fb1",
-      "#81c784"
-    ],
-    "desc": "Compact paper bouquet wrapped in Korean floral cone paper, perfect for congratulations."
-  },
-  {
-    "id": "serenity-white-bouquet",
-    "name": "Serenity Pure White Bouquet",
-    "hindi": "शांति पुष्पगुच्छ",
-    "category": "bouquet",
-    "price": 1349,
-    "unit": "hand-tied bouquet",
-    "img": "images/products/PicsArt_09-03-10.42.39.jpg",
-    "colors": [
       "#ffffff",
-      "#c9973b"
+      "#388e3c"
     ],
-    "desc": "Everlasting white and ivory paper florals symbolizing hope, grace, and heartfelt purity."
-  },
-  {
-    "id": "midnight-elegance-bouquet",
-    "name": "Midnight Luxe Dark Wrap",
-    "hindi": "मिडनाइट गुलदस्ता",
-    "category": "bouquet",
-    "price": 1449,
-    "unit": "designer bouquet",
-    "img": "images/products/PicsArt_09-03-10.45.25.jpg",
-    "colors": [
-      "#e91e63",
-      "#212121"
-    ],
-    "desc": "Contrasting delicate blooms set against premium midnight black wrapping paper."
-  },
-  {
-    "id": "ruby-heart-bouquet",
-    "name": "Ruby Heart Velvet Bouquet",
-    "hindi": "रूबी हार्ट गुलदस्ता",
-    "category": "bouquet",
-    "price": 1699,
-    "unit": "grand rose bouquet",
-    "img": "images/products/PicsArt_11-08-11.57.45.jpg",
-    "colors": [
-      "#d32f2f",
-      "#ffebee"
-    ],
-    "desc": "All-red paper rose collection lovingly tied with satin ribbon for romantic gestures."
-  },
-  {
-    "id": "sweet-tribute-bouquet",
-    "name": "Sweet Tribute Garden Bouquet",
-    "hindi": "स्नेह गुलदस्ता",
-    "category": "bouquet",
-    "price": 1399,
-    "unit": "hand-tied bouquet",
-    "img": "images/products/PicsArt_11-08-11.58.35.jpg",
-    "colors": [
-      "#f06292",
-      "#aed581"
-    ],
-    "desc": "Artisan paper flowers in a soft pastel symphony, guaranteed to never wilt."
-  },
-  {
-    "id": "forever-love-bouquet",
-    "name": "Forever Love Bouquet",
-    "hindi": "सदाबहार प्रेम गुलदस्ता",
-    "category": "bouquet",
-    "price": 1799,
-    "unit": "deluxe arrangement",
-    "img": "images/products/PicsArt_11-08-11.59.23.jpg",
-    "colors": [
-      "#c2185b",
-      "#ffd54f"
-    ],
-    "desc": "Our most gifted handcrafted bouquet with handwritten greeting card included."
-  },
-  {
-    "id": "rustic-twilight-bouquet",
-    "name": "Rustic Twilight Bouquet",
-    "hindi": "ट्वाइलाइट गुलदस्ता",
-    "category": "bouquet",
-    "price": 1149,
-    "unit": "kraft paper wrap",
-    "img": "images/products/PicsArt_12-28-10.06.04.jpg",
-    "colors": [
-      "#d7ccc8",
-      "#5d4037"
-    ],
-    "desc": "Earthy kraft wrap with warm textured paper blooms for cozy home and workspace vibes."
-  },
-  {
-    "id": "golden-sunset-bouquet",
-    "name": "Golden Sunset Bouquet",
-    "hindi": "गोल्डन सनसेट गुलदस्ता",
-    "category": "bouquet",
-    "price": 1299,
-    "unit": "hand-tied bouquet",
-    "img": "images/products/PicsArt_12-28-10.07.48.jpg",
-    "colors": [
-      "#ffa000",
-      "#bf360c"
-    ],
-    "desc": "Warm mustard, terracotta, and ochre paper petals tied with golden thread."
-  },
-  {
-    "id": "celestial-charm-bouquet",
-    "name": "Celestial Charm Bouquet",
-    "hindi": "दिव्य गुलदस्ता",
-    "category": "bouquet",
-    "price": 1249,
-    "unit": "hand-tied bouquet",
-    "img": "images/products/PicsArt_08-02-11.35.19.jpg",
-    "colors": [
-      "#ba68c8",
-      "#4a148c"
-    ],
-    "desc": "Soft tones, whimsical textures, and enduring beauty in every hand-sculpted paper petal."
-  },
-  {
-    "id": "berry-crush-bouquet",
-    "name": "Berry Crush Bouquet",
-    "hindi": "बेरी क्रश गुलदस्ता",
-    "category": "bouquet",
-    "price": 1349,
-    "unit": "handcrafted bouquet",
-    "img": "images/products/PicsArt_04-29-10.41.25.jpg",
-    "colors": [
-      "#880e4f",
-      "#33691e"
-    ],
-    "desc": "Rich raspberry, cranberry, and deep green paper accents tied with soft cotton ribbon."
+    "desc": "Classic fragrant Indian jasmine (Mogra) blossom handcrafted with delicate white crepe paper petals."
   }
 ];
 
 const CATEGORIES = [
   ["all", "All"],
-  ["bouquet", "Bouquets"],
   ["rose", "Roses"],
-  ["lily", "Lilies"],
-  ["sunflower", "Sunflowers"],
-  ["exotic", "Exotic & Botanicals"],
+  ["lily", "Lilies & Anthuriums"],
+  ["sunflower", "Sunflowers & Daisies"],
+  ["exotic", "Exotic & Traditional"]
 ];
-
-/* Custom Bouquet Options for the interactive Builder */
-const CUSTOM_BOUQUET_OPTIONS = {
-  sizes: [
-    { id: "mini", name: "Petite Bloom (5 Flowers)", price: 699, stems: 5 },
-    { id: "classic", name: "Classic Harmony (8 Flowers)", price: 1099, stems: 8, popular: true },
-    { id: "luxe", name: "Grand Luxe (12 Flowers)", price: 1599, stems: 12 },
-    { id: "royal", name: "Royal Treasure (16 Flowers)", price: 2199, stems: 16 }
-  ],
-  flowers: [
-    { id: "red-roses", name: "Crimson Velvet Roses", color: "#c61a38" },
-    { id: "blush-roses", name: "Blush Pink Roses", color: "#f08aa8" },
-    { id: "sunflowers", name: "Golden Sunflowers", color: "#f5b81c" },
-    { id: "white-lilies", name: "Pearl White Lilies", color: "#ffffff" },
-    { id: "blue-orchids", name: "Royal Blue Orchids", color: "#3d4fb5" },
-    { id: "magenta-peonies", name: "Magenta Peonies", color: "#ad1769" }
-  ],
-  wraps: [
-    { id: "korean-pink", name: "Korean Frosted Pastel Pink", desc: "Soft translucent matte paper with blush ribbon" },
-    { id: "kraft-rustic", name: "Artisan Rustic Kraft & Twine", desc: "Eco-friendly vintage brown paper with jute rope" },
-    { id: "midnight-gold", name: "Midnight Black & Golden Satin", desc: "Sophisticated dark matte wrap with gold trim" },
-    { id: "cream-neutral", name: "Minimalist Cream & Silk", desc: "Warm off-white wrap with silk bow" }
-  ],
-  extras: [
-    { id: "note", name: "Handwritten Greeting Card", price: 0, checked: true },
-    { id: "lights", name: "Fairy LED Twinkle Lights", price: 99 },
-    { id: "fragrance", name: "Infused Floral Fragrance Mist", price: 49 },
-    { id: "gift-box", name: "Hardcover Premium Keepsake Box", price: 249 }
-  ]
-};
 
 /* 'Every flower has a language' */
 const FLOWER_LANGUAGE = [

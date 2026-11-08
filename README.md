@@ -2,14 +2,14 @@
 
 Handled by **RUJUTA UTEKAR**  
 WhatsApp: **+91 8850818776**  
-Email: **paperblossom14@gmail.com**  
+Email: **paperblossom.14@gmail.com**  
 Instagram: **@paperblossom.14**
 
 Open `index.html` in a browser (or upload the whole folder to Netlify / Vercel / GitHub Pages).
 
 ## Configuration (`js/products.js`)
 1. **WhatsApp number** — configured with `8850818776` (`918850818776`).
-2. **Contact Email** — configured with `paperblossom14@gmail.com`.
+2. **Contact Email** — configured with `paperblossom.14@gmail.com`.
 3. **Manager** — Handled by RUJUTA UTEKAR.
 4. **Catalogue & Photos** — Replace sample items in `PRODUCTS` with photos from Instagram. Save photos in `images/` and set `img: "images/your-photo.jpg"`.
 5. **Brand Logo** — Uses `images/logo.jpg`.
