@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en" data-theme="burgundy">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper Blossom — Flowers, hand-arranged with love</title>
+<meta name="description" content="Browse the Paper Blossom flower catalogue, pick your flowers and order straight on WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
+<link rel="icon" type="image/jpeg" href="images/logo.jpg">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<canvas id="petals" aria-hidden="true"></canvas>
+
+<!-- Preloader -->
+<div id="preloader" aria-hidden="true">
+  <div class="pl-flower" id="plFlower"></div>
+  <p class="pl-text">फूल · Paper Blossom</p>
+  <div class="pl-bar"><span id="plBar"></span></div>
+</div>
+
+<!-- Marigold toran -->
+<div class="toran" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <a href="#top" class="logo"><img src="images/logo.jpg" alt="Paper Blossom" class="logo-img"><span>Paper Blossom</span></a>
+  <nav class="links" id="links">
+    <a href="#catalogue">Catalogue</a>
+    <a href="#language">Flower Language</a>
+    <a href="#occasions">Occasions</a>
+    <a href="#how">How to Order</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="tools">
+    <div class="themes" role="group" aria-label="Choose theme">
+      <button data-set-theme="burgundy" class="sw sw-b" title="Burgundy Lily" aria-label="Burgundy Lily theme"></button>
+      <button data-set-theme="sunflower" class="sw sw-s" title="Sunflower" aria-label="Sunflower theme"></button>
+      <button data-set-theme="emerald" class="sw sw-e" title="Emerald Garden" aria-label="Emerald Garden theme"></button>
+    </div>
+    <button id="pauseBtn" class="icon-btn" aria-pressed="false" title="Pause falling flowers">⏸ <span>Pause</span></button>
+    <button id="cartBtn" class="cart-btn" aria-label="Open basket">Basket <b id="cartCount">0</b></button>
+    <button id="menuBtn" class="icon-btn menu-btn" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-pattern" aria-hidden="true"></div>
+  <div class="vertical" aria-hidden="true">फूलों की दुनिया</div>
+  <div class="hero-copy">
+    <p class="eyebrow reveal">Online flower studio · Made to order</p>
+    <h1 class="reveal d1">Every flower<br>has a <em>story</em>.</h1>
+    <p class="lead reveal d2">Choose your flowers from our catalogue, send us your details, and we arrange everything with you on WhatsApp. Fresh, hand-tied, delivered with care.</p>
+    <div class="cta reveal d3">
+      <a href="#catalogue" class="btn primary">Browse catalogue</a>
+      <a href="#how" class="btn ghost">How it works</a>
+    </div>
+  </div>
+  <div class="hero-art reveal d2" id="heroArt" aria-hidden="true"></div>
+</section>
+
+<!-- Ticker -->
+<div class="ticker" aria-hidden="true"><div class="ticker-track" id="ticker"></div></div>
+
+<!-- Trust bar -->
+<section class="trust">
+  <div class="trust-i reveal"><b>Fresh</b><span>Sourced for every order</span></div>
+  <div class="trust-i reveal d1"><b>Custom</b><span>Your colours, your budget</span></div>
+  <div class="trust-i reveal d2"><b>Bulk &amp; events</b><span>Weddings, pooja, corporate</span></div>
+  <div class="trust-i reveal d3"><b>WhatsApp</b><span>Quick, personal service</span></div>
+</section>
+
+<!-- CATALOGUE -->
+<section id="catalogue" class="section">
+  <div class="sec-head reveal">
+    <p class="eyebrow">Our catalogue</p>
+    <h2>Pick your <em>flowers</em></h2>
+    <p class="sub">Tap “Add” on anything you love. Your basket sits on the right — when you’re ready, place the order.</p>
+  </div>
+  <div class="filters reveal">
+    <div class="chips" id="chips"></div>
+    <input id="search" type="search" placeholder="Search flowers…" aria-label="Search flowers">
+  </div>
+  <div class="grid" id="grid"></div>
+  <p class="empty" id="empty" hidden>No flowers match that search.</p>
+</section>
+
+<!-- FLOWER LANGUAGE -->
+<section id="language" class="section lang">
+  <div class="sec-head reveal">
+    <p class="eyebrow">पुष्प भाषा · Language of flowers</p>
+    <h2>Every flower speaks</h2>
+    <p class="sub">Not sure what to send? Let the flower say it for you.</p>
+  </div>
+  <div class="lang-grid" id="langGrid"></div>
+</section>
+
+<!-- OCCASIONS -->
+<section id="occasions" class="section">
+  <div class="sec-head reveal">
+    <p class="eyebrow">Occasions</p>
+    <h2>Flowers for every <em>moment</em></h2>
+  </div>
+  <div class="occ" id="occ"></div>
+  <div class="center reveal"><a class="btn ghost" id="customWa" href="#" target="_blank" rel="noopener">Ask about a custom order →</a></div>
+</section>
+
+<!-- HOW -->
+<section id="how" class="section how">
+  <div class="sec-head reveal">
+    <p class="eyebrow">Simple &amp; personal</p>
+    <h2>How to <em>order</em></h2>
+  </div>
+  <ol class="steps">
+    <li class="reveal"><span>1</span><h3>Choose</h3><p>Browse the catalogue and add flowers to your basket.</p></li>
+    <li class="reveal d1"><span>2</span><h3>Share details</h3><p>Enter your name, mobile number, address and date.</p></li>
+    <li class="reveal d2"><span>3</span><h3>WhatsApp</h3><p>Your order is sent to us on WhatsApp, ready to confirm.</p></li>
+    <li class="reveal d3"><span>4</span><h3>Delivered</h3><p>We confirm the price &amp; slot, then arrange your flowers.</p></li>
+  </ol>
+</section>
+
+<!-- INSTAGRAM -->
+<section class="section insta">
+  <div class="sec-head reveal">
+    <p class="eyebrow">Follow along</p>
+    <h2>On Instagram <em id="igHandle"></em></h2>
+  </div>
+  <div class="insta-grid" id="instaGrid"></div>
+  <div class="center reveal"><a class="btn primary" id="igBtn" href="#" target="_blank" rel="noopener">See more on Instagram</a></div>
+</section>
+
+</main>
+
+<footer id="contact" class="footer">
+  <div class="foot-main">
+    <div class="foot-brand">
+      <img src="images/logo.jpg" alt="Paper Blossom" class="logo-img big">
+      <h3>Paper Blossom</h3>
+      <p>Flowers, hand-arranged with love.</p>
+      <p class="foot-handled">Handled by <strong>RUJUTA UTEKAR</strong></p>
+    </div>
+    <div class="foot-contact">
+      <h4>Contact</h4>
+      <p><a id="footWa" href="#" target="_blank" rel="noopener"><span class="foot-icon">💬</span> WhatsApp: <strong>8850818776</strong></a></p>
+      <p><a id="footMail" href="mailto:paperblossom14@gmail.com"><span class="foot-icon">✉️</span> <strong>paperblossom14@gmail.com</strong></a></p>
+      <p><a id="footIg" href="#" target="_blank" rel="noopener"><span class="foot-icon">📸</span> Instagram: <strong>@paperblossom.14</strong></a></p>
+    </div>
+    <div class="foot-explore">
+      <h4>Explore</h4>
+      <p><a href="#catalogue">Catalogue</a></p>
+      <p><a href="#language">Flower Language</a></p>
+      <p><a href="#occasions">Occasions</a></p>
+      <p><a href="#how">How to order</a></p>
+    </div>
+  </div>
+  <p class="copy">© <span id="year"></span> Paper Blossom · Handled by RUJUTA UTEKAR. Made with petals &amp; patience.</p>
+</footer>
+
+<!-- Floating WhatsApp -->
+<a id="floatWa" class="float-wa" href="#" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">💬</a>
+
+<!-- CART DRAWER -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Basket">
+  <div class="drawer-head">
+    <h3>Your basket</h3>
+    <button class="icon-btn" id="closeCart" aria-label="Close basket">✕</button>
+  </div>
+
+  <div class="drawer-body" id="drawerBody">
+    <div id="cartView">
+      <ul class="cart-list" id="cartList"></ul>
+      <p class="cart-empty" id="cartEmpty">Your basket is empty. Add some flowers 🌸</p>
+      <div class="cart-total" id="cartTotalWrap"><span>Estimated total</span><b id="cartTotal">₹0</b></div>
+      <p class="fine">Final price &amp; delivery charge are confirmed on WhatsApp.</p>
+      <button class="btn primary full" id="toCheckout" disabled>Place order →</button>
+    </div>
+
+    <form id="orderForm" hidden novalidate>
+      <button type="button" class="back" id="backCart">← Back to basket</button>
+      <h4>Your details</h4>
+      <label>Full name<input name="name" required autocomplete="name"></label>
+      <label>Mobile number<input name="phone" required inputmode="numeric" maxlength="10" placeholder="10-digit mobile" autocomplete="tel-national"></label>
+      <label>Delivery address<textarea name="address" rows="3" required autocomplete="street-address"></textarea></label>
+      <div class="row2">
+        <label>City<input name="city" required autocomplete="address-level2"></label>
+        <label>Pincode<input name="pin" required inputmode="numeric" maxlength="6" autocomplete="postal-code"></label>
+      </div>
+      <div class="row2">
+        <label>Delivery date<input type="date" name="date" required></label>
+        <label>Occasion<select name="occasion">
+          <option>Birthday</option><option>Anniversary</option><option>Wedding</option>
+          <option>Pooja / Festival</option><option>Gift</option><option>Other</option></select></label>
+      </div>
+      <label>Message / special request<textarea name="note" rows="2" placeholder="Card message, colour preference, budget…"></textarea></label>
+      <p class="err" id="formErr" role="alert"></p>
+      <button class="btn primary full" type="submit">Send order on WhatsApp</button>
+      <p class="fine" id="deliveryNote"></p>
+    </form>
+  </div>
+</aside>
+
+<script src="js/products.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
