@@ -5,7 +5,30 @@
   const money = n => SITE.currency + Number(n).toLocaleString("en-IN");
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-  const byId = id => PRODUCTS.find(p => p.id === id);
+  const byId = id => {
+    if (typeof id === "string" && id.includes("__")) {
+      const [baseId, optId] = id.split("__");
+      const base = PRODUCTS.find(p => p.id === baseId);
+      if (!base) return null;
+      const opt = base.options?.find(o => o.id === optId) || base.options?.[0];
+      if (!opt) return base;
+      const optMoq = opt.moq || base.moq || 1;
+      return {
+        ...base,
+        id: `${base.id}__${opt.id}`,
+        baseId: base.id,
+        optionId: opt.id,
+        name: `${base.name} (${opt.name})`,
+        optionName: opt.name,
+        price: opt.price,
+        unit: `per ${opt.unit || "flower"}${optMoq > 1 ? ` · MOQ ${optMoq}` : ""}`,
+        moq: optMoq,
+        bulkPricing: opt.bulkPricing || base.bulkPricing,
+        desc: `${base.desc} | Finish: ${opt.name}`
+      };
+    }
+    return PRODUCTS.find(p => p.id === id);
+  };
 
   const safeLS = {
     get(k) { try { return localStorage.getItem(k); } catch { return null; } },
@@ -145,39 +168,66 @@
     `;
   }
 
-  function renderCardDetails(p) {
+  const selectedOption = {};
+  const openPanels = new Set();
+
+  function getSelectedOption(p) {
+    if (!p || !p.options || !p.options.length) return null;
+    return p.options.find(o => o.id === selectedOption[p.id]) || p.options[0];
+  }
+
+  function renderCardDetails(p, curOpt) {
     let html = "";
 
-    // MOQ
-    if (p.moq) {
-      const moqTxt = p.specs?.moq || `${p.moq} flowers (same colour and size)`;
-      html += `<div class="cd-sec moq-sec"><span class="cd-label">MOQ:</span> <strong>${esc(moqTxt)}</strong></div>`;
-    }
-
-    // Options / Finishes
+    // Options / Finishes (Interactive Selection)
     if (p.options && p.options.length) {
       html += `
         <div class="cd-sec">
-          <div class="cd-title">Options &amp; Finishes:</div>
+          <div class="cd-title">
+            <span>Options &amp; Finishes:</span>
+            <small class="cd-choose-note">(Tap to select finish)</small>
+          </div>
           <div class="cd-options">
-            ${p.options.map(o => `
-              <div class="cd-opt-row">
-                <span>${esc(o.name)}</span>
-                <b>${money(o.price)} <small>/ ${o.unit || "pc"}</small></b>
-              </div>
-            `).join("")}
+            ${p.options.map(o => {
+              const isSel = curOpt && curOpt.id === o.id;
+              return `
+                <button type="button" class="cd-opt-row selectable ${isSel ? 'active' : ''}"
+                  data-select-opt="${p.id}" data-opt-id="${o.id}"
+                  role="radio" aria-checked="${isSel}">
+                  <span class="opt-radio ${isSel ? 'checked' : ''}" aria-hidden="true">
+                    <span class="opt-radio-dot"></span>
+                  </span>
+                  <div class="opt-text">
+                    <span class="opt-title">${esc(o.name)}</span>
+                    ${o.moq ? `<span class="opt-moq-tag">MOQ: ${o.moq} pcs (same colour &amp; size)</span>` : ""}
+                  </div>
+                  <div class="opt-cost">
+                    <b class="opt-price">${money(o.price)}</b>
+                    <small class="opt-unit">/ ${o.unit || "flower"}</small>
+                  </div>
+                </button>
+              `;
+            }).join("")}
           </div>
         </div>
       `;
     }
 
+    // MOQ
+    if (p.moq || (curOpt && curOpt.moq)) {
+      const effMoq = curOpt?.moq || p.moq;
+      const moqTxt = p.specs?.moq || `${effMoq} flowers (same colour and size)`;
+      html += `<div class="cd-sec moq-sec"><span class="cd-label">MOQ:</span> <strong>${esc(moqTxt)}</strong></div>`;
+    }
+
     // Bulk Pricing
-    if (p.bulkPricing && p.bulkPricing.length) {
+    const curBulk = (curOpt && curOpt.bulkPricing) || p.bulkPricing;
+    if (curBulk && curBulk.length) {
       html += `
         <div class="cd-sec">
-          <div class="cd-title">Bulk Pricing:</div>
+          <div class="cd-title">Bulk Pricing ${curOpt && curOpt.bulkPricing ? `(${esc(curOpt.name)})` : ''}:</div>
           <div class="cd-bulk-grid">
-            ${p.bulkPricing.map(t => `
+            ${curBulk.map(t => `
               <div class="cd-bulk-cell">
                 <span class="bp-q">${t.qty}</span>
                 <b class="bp-p">${money(t.price)} <small>/pc</small></b>
@@ -223,39 +273,60 @@
     }
 
     $("#grid").innerHTML = list.map((p, i) => {
-      const inCart = cart[p.id] || 0;
+      const curOpt = getSelectedOption(p);
+      const effectivePrice = curOpt ? curOpt.price : p.price;
+      const effectiveMoq = curOpt ? (curOpt.moq || p.moq || 1) : (p.moq || 1);
+      const effectiveUnit = curOpt ? `per ${curOpt.unit || "flower"} · MOQ ${effectiveMoq}` : p.unit;
+      const effectiveCartId = curOpt ? `${p.id}__${curOpt.id}` : p.id;
+      const inCart = cart[effectiveCartId] || 0;
+      const isOpen = openPanels.has(p.id);
       const hasDetails = Boolean(p.moq || p.options || p.bulkPricing || p.specs);
+
       return `
       <article class="card reveal" style="transition-delay:${Math.min(i, 6) * 60}ms" data-id="${p.id}">
         <div class="card-img">
           ${media(p)}
           <span class="tag">${esc(CATEGORIES.find(c => c[0] === p.category)?.[1] || p.category)}</span>
           ${p.variantType ? `<span class="tag-variant">${esc(p.variantType)}</span>` : ""}
-          ${p.moq ? `<span class="tag-moq">MOQ: ${p.moq} pcs</span>` : ""}
+          ${effectiveMoq > 1 ? `<span class="tag-moq">MOQ: ${effectiveMoq} pcs</span>` : ""}
         </div>
         <div class="card-body">
           <span class="hi">${esc(p.hindi || "")}</span>
           <h3>${esc(p.name)}</h3>
           <p class="card-desc">${esc(p.desc)}</p>
 
+          ${curOpt ? `
+            <div class="card-cur-opt" data-toggle="${p.id}" role="button" tabindex="0" title="Click to choose a different finish">
+              <div class="cco-label-row">
+                <span class="cco-tag">Selected Finish</span>
+                <span class="cco-action">${isOpen ? "Hide Options ▴" : "Change Finish ▾"}</span>
+              </div>
+              <div class="cco-val-row">
+                <span class="cco-check">✓</span>
+                <span class="cco-name">${esc(curOpt.name)}</span>
+                <b class="cco-price">${money(curOpt.price)}</b>
+              </div>
+            </div>
+          ` : ""}
+
           ${hasDetails ? `
-            <button type="button" class="expand-btn" data-toggle="${p.id}" aria-expanded="false" title="Click to view pricing, options & specs">
-              <span>Pricing &amp; Details</span>
+            <button type="button" class="expand-btn ${isOpen ? 'open' : ''}" data-toggle="${p.id}" aria-expanded="${isOpen}" title="Click to view pricing, options &amp; specs">
+              <span>${p.options?.length ? 'All Options &amp; Details' : 'Pricing &amp; Details'}</span>
               <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             </button>
-            <div class="card-details-panel" id="panel-${p.id}" hidden>
-              ${renderCardDetails(p)}
+            <div class="card-details-panel ${isOpen ? 'open' : ''}" id="panel-${p.id}" ${isOpen ? "" : "hidden"}>
+              ${renderCardDetails(p, curOpt)}
             </div>
           ` : ""}
 
           <div class="card-foot">
             <div class="price">
-              <b>${money(p.price)}</b>
-              <small>${esc(p.unit)}</small>
+              <b>${money(effectivePrice)}</b>
+              <small>${esc(effectiveUnit)}</small>
             </div>
-            <button class="add" data-add="${p.id}">${p.moq && !inCart ? `Add MOQ (${p.moq}) +` : "Add +"}</button>
+            <button class="add" data-add="${effectiveCartId}">${effectiveMoq > 1 && !inCart ? `Add MOQ (${effectiveMoq}) +` : "Add +"}</button>
           </div>
         </div>
       </article>`;
@@ -265,39 +336,43 @@
   }
 
   $("#grid").addEventListener("click", e => {
+    // Handle Option Selection
+    const optBtn = e.target.closest("[data-select-opt]");
+    if (optBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const pid = optBtn.dataset.selectOpt;
+      const optId = optBtn.dataset.optId;
+      selectedOption[pid] = optId;
+      openPanels.add(pid);
+      renderGrid();
+      return;
+    }
+
     // Handle Expand Accordion Toggle
     const toggleBtn = e.target.closest("[data-toggle]");
     if (toggleBtn) {
       e.preventDefault();
       e.stopPropagation();
       const id = toggleBtn.dataset.toggle;
-      const panel = $(`#panel-${id}`);
-      if (panel) {
-        const isOpen = panel.classList.contains("open");
-        if (isOpen) {
-          panel.classList.remove("open");
-          panel.hidden = true;
-          toggleBtn.classList.remove("open");
-          toggleBtn.setAttribute("aria-expanded", "false");
-        } else {
-          panel.classList.add("open");
-          panel.hidden = false;
-          toggleBtn.classList.add("open");
-          toggleBtn.setAttribute("aria-expanded", "true");
-        }
+      if (openPanels.has(id)) {
+        openPanels.delete(id);
+      } else {
+        openPanels.add(id);
       }
+      renderGrid();
       return;
     }
 
     // Handle Add to Basket
     const b = e.target.closest("[data-add]");
     if (b) {
-      const pid = b.dataset.add;
-      addToCart(pid);
+      const cartId = b.dataset.add;
+      addToCart(cartId);
       b.textContent = "Added ✓"; b.classList.add("added");
       setTimeout(() => {
-        const p = byId(pid);
-        b.textContent = (p && p.moq && !cart[p.id]) ? `Add MOQ (${p.moq}) +` : "Add +";
+        const p = byId(cartId);
+        b.textContent = (p && p.moq && !cart[cartId]) ? `Add MOQ (${p.moq}) +` : "Add +";
         b.classList.remove("added");
       }, 1200);
       return;
@@ -357,7 +432,18 @@
   /* ---------- Cart ---------- */
   let cart = {};
   try { cart = JSON.parse(safeLS.get("pb-cart") || "{}") || {}; } catch { cart = {}; }
-  Object.keys(cart).forEach(id => { if (!byId(id) || !(cart[id] > 0)) delete cart[id]; });
+  Object.keys(cart).forEach(id => {
+    if (!id.includes("__")) {
+      const base = PRODUCTS.find(p => p.id === id);
+      if (base && base.options && base.options.length) {
+        const migId = `${base.id}__${base.options[0].id}`;
+        cart[migId] = (cart[migId] || 0) + cart[id];
+        delete cart[id];
+        return;
+      }
+    }
+    if (!byId(id) || !(cart[id] > 0)) delete cart[id];
+  });
   const save = () => safeLS.set("pb-cart", JSON.stringify(cart));
 
   const getUnitPrice = (p, n) => {

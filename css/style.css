@@ -547,22 +547,195 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; line-height
   text-transform: uppercase;
   letter-spacing: .06em;
   color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Selected finish card summary pill */
+.card-cur-opt {
+  display: block;
+  width: 100%;
+  margin: 4px 0 10px;
+  padding: 8px 10px;
+  background: color-mix(in srgb, var(--accent) 7%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--accent) 26%, transparent);
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: all .2s ease;
+  user-select: none;
+}
+.card-cur-opt:hover {
+  background: color-mix(in srgb, var(--accent) 12%, var(--card));
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.cco-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 3px;
+}
+.cco-tag {
+  color: var(--accent);
+  font-weight: 700;
+}
+.cco-action {
+  color: var(--muted);
+  font-size: .68rem;
+  font-weight: 500;
+  transition: color .2s ease;
+}
+.card-cur-opt:hover .cco-action {
+  color: var(--accent);
+}
+.cco-val-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cco-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: .65rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.cco-name {
+  color: var(--ink);
+  font-size: .84rem;
+  font-weight: 600;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cco-price {
+  font-family: var(--font-display);
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.cd-choose-note {
+  font-size: .68rem;
+  color: var(--accent);
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  margin-left: auto;
 }
 
 .cd-options {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 .cd-opt-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 8px;
+  padding: 8px 10px;
   background: var(--card);
-  border-radius: 6px;
-  border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
   font-size: .78rem;
+}
+.cd-opt-row.selectable {
+  width: 100%;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: all .2s ease;
+  position: relative;
+}
+.cd-opt-row.selectable:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 5%, var(--card));
+  transform: translateY(-1px);
+}
+.cd-opt-row.selectable.active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 11%, var(--card));
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+.opt-radio {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--ink) 30%, transparent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--card);
+  transition: all .2s ease;
+}
+.opt-radio.checked {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+.opt-radio-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffffff;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all .2s ease;
+}
+.opt-radio.checked .opt-radio-dot {
+  opacity: 1;
+  transform: scale(1);
+}
+.opt-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  margin: 0 10px;
+  text-align: left;
+}
+.opt-title {
+  color: var(--ink);
+  font-weight: 600;
+  font-size: .82rem;
+  line-height: 1.25;
+}
+.cd-opt-row.selectable.active .opt-title {
+  color: var(--accent);
+}
+.opt-moq-tag {
+  color: var(--muted);
+  font-size: .68rem;
+  font-weight: 500;
+}
+.opt-cost {
+  text-align: right;
+  flex-shrink: 0;
+}
+.opt-price {
+  font-family: var(--font-display);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: .95rem;
+  display: block;
+}
+.opt-unit {
+  font-size: .68rem;
+  color: var(--muted);
+  font-weight: 400;
 }
 .cd-opt-row span {
   color: var(--ink);

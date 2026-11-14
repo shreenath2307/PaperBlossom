@@ -4,16 +4,16 @@
    ============================================================ */
 
 const SITE = {
-  brand: "Paper Blossom",
-  tagline: "Handcrafted paper flowers, arranged with love",
-  whatsappNumber: "918850818776",
-  phoneDisplay: "8850818776",
-  email: "paperblossom.14@gmail.com",
-  handledBy: "RUJUTA UTEKAR",
-  instagramUrl: "https://www.instagram.com/paperblossom.14",
-  instagramHandle: "@paperblossom.14",
-  currency: "₹",
-  deliveryNote: "All flowers are lovingly handmade with high-grade crepe paper. Forever in bloom!",
+  "brand": "Paper Blossom",
+  "tagline": "Handcrafted paper flowers, arranged with love",
+  "whatsappNumber": "918850818776",
+  "phoneDisplay": "8850818776",
+  "email": "paperblossom.14@gmail.com",
+  "handledBy": "RUJUTA UTEKAR",
+  "instagramUrl": "https://www.instagram.com/paperblossom.14",
+  "instagramHandle": "@paperblossom.14",
+  "currency": "₹",
+  "deliveryNote": "All flowers are lovingly handmade with high-grade crepe paper. Forever in bloom!"
 };
 
 const PRODUCTS = [
@@ -32,9 +32,27 @@ const PRODUCTS = [
     ],
     "desc": "Signature handmade crimson paper rose sculpted with Italian crepe paper. Available as single flower or with wired stem and leaf.",
     "options": [
-      { "name": "Plain Colour Rose (Only Flower)", "price": 200, "unit": "flower", "moq": 10 },
-      { "name": "Rose with One Leaf (Stem ~10″)", "price": 400, "unit": "flower", "moq": 5 },
-      { "name": "Rose with One Leaf (U-Shape Stem)", "price": 400, "unit": "flower", "moq": 5 }
+      {
+        "name": "Plain Colour Rose (Only Flower)",
+        "price": 200,
+        "unit": "flower",
+        "moq": 10,
+        "id": "plain-colour-rose-only-flower"
+      },
+      {
+        "name": "Rose with One Leaf (Stem ~10″)",
+        "price": 400,
+        "unit": "flower",
+        "moq": 5,
+        "id": "rose-with-one-leaf-stem-10"
+      },
+      {
+        "name": "Rose with One Leaf (U-Shape Stem)",
+        "price": 400,
+        "unit": "flower",
+        "moq": 5,
+        "id": "rose-with-one-leaf-u-shape-stem"
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper",
@@ -60,14 +78,56 @@ const PRODUCTS = [
     ],
     "desc": "Handcrafted Gerbera flowers with delicate petals and a realistic look. Lightweight and long-lasting.",
     "options": [
-      { "name": "Plain Colour Gerbera", "price": 400, "unit": "flower", "moq": 4 },
-      { "name": "Shaded Gerbera", "price": 450, "unit": "flower", "moq": 4 },
-      { "name": "Gerbera Leaf (Olive / Leaf green)", "price": 200, "unit": "leaf", "moq": 4 }
+      {
+        "name": "Plain Colour Gerbera",
+        "price": 400,
+        "unit": "flower",
+        "moq": 4,
+        "id": "plain-colour-gerbera",
+        "bulkPricing": [
+          { "qty": "4–9 pcs", "price": 400, "min": 4, "max": 9 },
+          { "qty": "10–49 pcs", "price": 380, "min": 10, "max": 49 },
+          { "qty": "50+ pcs", "price": 350, "min": 50 }
+        ]
+      },
+      {
+        "name": "Shaded Gerbera",
+        "price": 450,
+        "unit": "flower",
+        "moq": 4,
+        "id": "shaded-gerbera",
+        "bulkPricing": [
+          { "qty": "4–9 pcs", "price": 450, "min": 4, "max": 9 },
+          { "qty": "10–49 pcs", "price": 430, "min": 10, "max": 49 },
+          { "qty": "50+ pcs", "price": 400, "min": 50 }
+        ]
+      },
+      {
+        "name": "Gerbera Leaf (Olive / Leaf green)",
+        "price": 200,
+        "unit": "leaf",
+        "moq": 4,
+        "id": "gerbera-leaf-olive-leaf-green"
+      }
     ],
     "bulkPricing": [
-      { "qty": "4–9 pcs", "price": 400, "min": 4, "max": 9 },
-      { "qty": "10–49 pcs", "price": 380, "min": 10, "max": 49 },
-      { "qty": "50+ pcs", "price": 350, "min": 50 }
+      {
+        "qty": "4–9 pcs",
+        "price": 400,
+        "min": 4,
+        "max": 9
+      },
+      {
+        "qty": "10–49 pcs",
+        "price": 380,
+        "min": 10,
+        "max": 49
+      },
+      {
+        "qty": "50+ pcs",
+        "price": 350,
+        "min": 50
+      }
     ],
     "specs": {
       "material": "High-quality extra fine crepe paper",
@@ -93,9 +153,24 @@ const PRODUCTS = [
     ],
     "desc": "Exquisite handcrafted paper hibiscus with sculpted crimson petals and prominent golden-tipped stamen.",
     "options": [
-      { "name": "Plain Colour (Red / Light Peach / others)", "price": 160, "unit": "flower" },
-      { "name": "Yellow-Orange Light Shaded", "price": 200, "unit": "flower" },
-      { "name": "Yellow-Reddish Pink / Dark Orange Shaded", "price": 300, "unit": "flower" }
+      {
+        "name": "Plain Colour (Red / Light Peach / others)",
+        "price": 160,
+        "unit": "flower",
+        "id": "plain-colour-red-light-peach-others"
+      },
+      {
+        "name": "Yellow-Orange Light Shaded",
+        "price": 200,
+        "unit": "flower",
+        "id": "yellow-orange-light-shaded"
+      },
+      {
+        "name": "Yellow-Reddish Pink / Dark Orange Shaded",
+        "price": 300,
+        "unit": "flower",
+        "id": "yellow-reddish-pink-dark-orange-shaded"
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper",
@@ -121,9 +196,27 @@ const PRODUCTS = [
     ],
     "desc": "Deep wine-red paper rose with velvety textured petals, wired stem and naturalistic sepals.",
     "options": [
-      { "name": "Rose with One Leaf (Plain Colour)", "price": 400, "unit": "flower", "moq": 5 },
-      { "name": "Rose with One Leaf (Shaded)", "price": 700, "unit": "flower", "moq": 5 },
-      { "name": "Rose (Only Flower - Plain)", "price": 200, "unit": "flower", "moq": 10 }
+      {
+        "name": "Rose with One Leaf (Plain Colour)",
+        "price": 400,
+        "unit": "flower",
+        "moq": 5,
+        "id": "rose-with-one-leaf-plain-colour"
+      },
+      {
+        "name": "Rose with One Leaf (Shaded)",
+        "price": 700,
+        "unit": "flower",
+        "moq": 5,
+        "id": "rose-with-one-leaf-shaded"
+      },
+      {
+        "name": "Rose (Only Flower - Plain)",
+        "price": 200,
+        "unit": "flower",
+        "moq": 10,
+        "id": "rose-only-flower-plain"
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper",
@@ -149,9 +242,24 @@ const PRODUCTS = [
     ],
     "desc": "Graceful handcrafted red tulip with 2 sculpted leaves on a slender stem. Available in plain, shaded, or striped finish.",
     "options": [
-      { "name": "Plain Colour Tulip (with 2 leaves)", "price": 500, "unit": "flower" },
-      { "name": "Shaded Tulip (with 2 leaves)", "price": 700, "unit": "flower" },
-      { "name": "Striped Tulip (with 2 leaves)", "price": 700, "unit": "flower" }
+      {
+        "name": "Plain Colour Tulip (with 2 leaves)",
+        "price": 500,
+        "unit": "flower",
+        "id": "plain-colour-tulip-with-2-leaves"
+      },
+      {
+        "name": "Shaded Tulip (with 2 leaves)",
+        "price": 700,
+        "unit": "flower",
+        "id": "shaded-tulip-with-2-leaves"
+      },
+      {
+        "name": "Striped Tulip (with 2 leaves)",
+        "price": 700,
+        "unit": "flower",
+        "id": "striped-tulip-with-2-leaves"
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper",
@@ -177,8 +285,17 @@ const PRODUCTS = [
     ],
     "desc": "Crafted with high-quality crepe paper for a realistic and elegant look. Lightweight and long-lasting.",
     "bulkPricing": [
-      { "qty": "1–99 pcs", "price": 60, "min": 1, "max": 99 },
-      { "qty": "100+ pcs", "price": 55, "min": 100 }
+      {
+        "qty": "1–99 pcs",
+        "price": 60,
+        "min": 1,
+        "max": 99
+      },
+      {
+        "qty": "100+ pcs",
+        "price": 55,
+        "min": 100
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper",
@@ -202,8 +319,18 @@ const PRODUCTS = [
     ],
     "desc": "Vibrant yellow paper sunflower with an intricate textured dark center disc and lifelike foliage.",
     "options": [
-      { "name": "Sunflower (Only Flower)", "price": 1000, "unit": "flower" },
-      { "name": "Sunflower with 3 Leaves", "price": 1800, "unit": "stick" }
+      {
+        "name": "Sunflower (Only Flower)",
+        "price": 1000,
+        "unit": "flower",
+        "id": "sunflower-only-flower"
+      },
+      {
+        "name": "Sunflower with 3 Leaves",
+        "price": 1800,
+        "unit": "stick",
+        "id": "sunflower-with-3-leaves"
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper",
@@ -228,10 +355,34 @@ const PRODUCTS = [
     ],
     "desc": "Radiant yellow handcrafted paper rose symbolizing warmth, friendship, and bright joy.",
     "options": [
-      { "name": "Rose with One Leaf (Plain)", "price": 400, "unit": "flower", "moq": 5 },
-      { "name": "Rose with One Leaf (Shaded)", "price": 700, "unit": "flower", "moq": 5 },
-      { "name": "Rose with One Leaf (U-Shape)", "price": 400, "unit": "flower", "moq": 5 },
-      { "name": "Rose (Only Flower - Plain)", "price": 200, "unit": "flower", "moq": 10 }
+      {
+        "name": "Rose with One Leaf (Plain)",
+        "price": 400,
+        "unit": "flower",
+        "moq": 5,
+        "id": "rose-with-one-leaf-plain"
+      },
+      {
+        "name": "Rose with One Leaf (Shaded)",
+        "price": 700,
+        "unit": "flower",
+        "moq": 5,
+        "id": "rose-with-one-leaf-shaded"
+      },
+      {
+        "name": "Rose with One Leaf (U-Shape)",
+        "price": 400,
+        "unit": "flower",
+        "moq": 5,
+        "id": "rose-with-one-leaf-u-shape"
+      },
+      {
+        "name": "Rose (Only Flower - Plain)",
+        "price": 200,
+        "unit": "flower",
+        "moq": 10,
+        "id": "rose-only-flower-plain"
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper",
@@ -257,9 +408,23 @@ const PRODUCTS = [
     ],
     "desc": "Handcrafted Daisy flowers with delicate white petals and bright yellow center.",
     "bulkPricing": [
-      { "qty": "10–19 pcs", "price": 125, "min": 10, "max": 19 },
-      { "qty": "20–50 pcs", "price": 115, "min": 20, "max": 50 },
-      { "qty": "50+ pcs", "price": 105, "min": 51 }
+      {
+        "qty": "10–19 pcs",
+        "price": 125,
+        "min": 10,
+        "max": 19
+      },
+      {
+        "qty": "20–50 pcs",
+        "price": 115,
+        "min": 20,
+        "max": 50
+      },
+      {
+        "qty": "50+ pcs",
+        "price": 105,
+        "min": 51
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper",
@@ -286,9 +451,23 @@ const PRODUCTS = [
     ],
     "desc": "High quality extra fine crepe paper with shiny coating on flower. Flower: approx. 4.5″ × 3.5″, stem: approx. 12″.",
     "bulkPricing": [
-      { "qty": "1–9 pcs", "price": 320, "min": 1, "max": 9 },
-      { "qty": "10–49 pcs", "price": 300, "min": 10, "max": 49 },
-      { "qty": "50+ pcs", "price": 280, "min": 50 }
+      {
+        "qty": "1–9 pcs",
+        "price": 320,
+        "min": 1,
+        "max": 9
+      },
+      {
+        "qty": "10–49 pcs",
+        "price": 300,
+        "min": 10,
+        "max": 49
+      },
+      {
+        "qty": "50+ pcs",
+        "price": 280,
+        "min": 50
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper with shiny coating on flower",
@@ -315,9 +494,23 @@ const PRODUCTS = [
     ],
     "desc": "Vivid red plain colour anthurium in extra fine crepe paper with shiny coating. Flower: approx. 4.5″ × 3.5″, stem: approx. 12″.",
     "bulkPricing": [
-      { "qty": "1–9 pcs", "price": 320, "min": 1, "max": 9 },
-      { "qty": "10–49 pcs", "price": 300, "min": 10, "max": 49 },
-      { "qty": "50+ pcs", "price": 280, "min": 50 }
+      {
+        "qty": "1–9 pcs",
+        "price": 320,
+        "min": 1,
+        "max": 9
+      },
+      {
+        "qty": "10–49 pcs",
+        "price": 300,
+        "min": 10,
+        "max": 49
+      },
+      {
+        "qty": "50+ pcs",
+        "price": 280,
+        "min": 50
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper with shiny coating on flower",
@@ -344,9 +537,23 @@ const PRODUCTS = [
     ],
     "desc": "Shaded two-tone paper anthurium blending soft pink and white with shiny coating. Flower: approx. 4.5″ × 3.5″, stem: approx. 12″.",
     "bulkPricing": [
-      { "qty": "1–9 pcs", "price": 360, "min": 1, "max": 9 },
-      { "qty": "10–49 pcs", "price": 340, "min": 10, "max": 49 },
-      { "qty": "50+ pcs", "price": 320, "min": 50 }
+      {
+        "qty": "1–9 pcs",
+        "price": 360,
+        "min": 1,
+        "max": 9
+      },
+      {
+        "qty": "10–49 pcs",
+        "price": 340,
+        "min": 10,
+        "max": 49
+      },
+      {
+        "qty": "50+ pcs",
+        "price": 320,
+        "min": 50
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper with shiny coating on flower",
@@ -372,8 +579,17 @@ const PRODUCTS = [
     ],
     "desc": "Crafted with high-quality crepe paper for a realistic and elegant look. Lightweight and long-lasting.",
     "bulkPricing": [
-      { "qty": "1–99 pcs", "price": 50, "min": 1, "max": 99 },
-      { "qty": "100+ pcs", "price": 45, "min": 100 }
+      {
+        "qty": "1–99 pcs",
+        "price": 50,
+        "min": 1,
+        "max": 99
+      },
+      {
+        "qty": "100+ pcs",
+        "price": 45,
+        "min": 100
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper",
@@ -398,9 +614,27 @@ const PRODUCTS = [
     ],
     "desc": "Rich magenta velvet paper rose with lush contoured petals handcrafted from premium Italian crepe.",
     "options": [
-      { "name": "Plain Colour Rose (Only Flower)", "price": 200, "unit": "flower", "moq": 10 },
-      { "name": "Rose with One Leaf (Plain Colour)", "price": 400, "unit": "flower", "moq": 5 },
-      { "name": "Rose with One Leaf (Shaded)", "price": 700, "unit": "flower", "moq": 5 }
+      {
+        "name": "Plain Colour Rose (Only Flower)",
+        "price": 200,
+        "unit": "flower",
+        "moq": 10,
+        "id": "plain-colour-rose-only-flower"
+      },
+      {
+        "name": "Rose with One Leaf (Plain Colour)",
+        "price": 400,
+        "unit": "flower",
+        "moq": 5,
+        "id": "rose-with-one-leaf-plain-colour"
+      },
+      {
+        "name": "Rose with One Leaf (Shaded)",
+        "price": 700,
+        "unit": "flower",
+        "moq": 5,
+        "id": "rose-with-one-leaf-shaded"
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper",
@@ -426,9 +660,27 @@ const PRODUCTS = [
     ],
     "desc": "Striking fiery reddish-orange shaded paper rose blooming with energetic warm hues.",
     "options": [
-      { "name": "Rose with One Leaf (Shaded)", "price": 700, "unit": "flower", "moq": 5 },
-      { "name": "Rose with One Leaf (Plain)", "price": 400, "unit": "flower", "moq": 5 },
-      { "name": "Rose (Only Flower - Plain)", "price": 200, "unit": "flower", "moq": 10 }
+      {
+        "name": "Rose with One Leaf (Shaded)",
+        "price": 700,
+        "unit": "flower",
+        "moq": 5,
+        "id": "rose-with-one-leaf-shaded"
+      },
+      {
+        "name": "Rose with One Leaf (Plain)",
+        "price": 400,
+        "unit": "flower",
+        "moq": 5,
+        "id": "rose-with-one-leaf-plain"
+      },
+      {
+        "name": "Rose (Only Flower - Plain)",
+        "price": 200,
+        "unit": "flower",
+        "moq": 10,
+        "id": "rose-only-flower-plain"
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper",
@@ -454,9 +706,27 @@ const PRODUCTS = [
     ],
     "desc": "Gentle peach-apricot paper rose with organic fluted petals and realistic leaves.",
     "options": [
-      { "name": "Rose with One Leaf (Plain)", "price": 400, "unit": "flower", "moq": 5 },
-      { "name": "Rose with One Leaf (Shaded)", "price": 700, "unit": "flower", "moq": 5 },
-      { "name": "Rose (Only Flower - Plain)", "price": 200, "unit": "flower", "moq": 10 }
+      {
+        "name": "Rose with One Leaf (Plain)",
+        "price": 400,
+        "unit": "flower",
+        "moq": 5,
+        "id": "rose-with-one-leaf-plain"
+      },
+      {
+        "name": "Rose with One Leaf (Shaded)",
+        "price": 700,
+        "unit": "flower",
+        "moq": 5,
+        "id": "rose-with-one-leaf-shaded"
+      },
+      {
+        "name": "Rose (Only Flower - Plain)",
+        "price": 200,
+        "unit": "flower",
+        "moq": 10,
+        "id": "rose-only-flower-plain"
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper",
@@ -482,8 +752,20 @@ const PRODUCTS = [
     ],
     "desc": "Pure white handcrafted paper lily with delicate sculpted petals. Available as single flower or full stick with bud and leaves.",
     "options": [
-      { "name": "Lily Flower", "price": 500, "unit": "flower", "moq": 3 },
-      { "name": "Lily with Bud and Leaves", "price": 900, "unit": "stick", "moq": 3 }
+      {
+        "name": "Lily Flower",
+        "price": 500,
+        "unit": "flower",
+        "moq": 3,
+        "id": "lily-flower"
+      },
+      {
+        "name": "Lily with Bud and Leaves",
+        "price": 900,
+        "unit": "stick",
+        "moq": 3,
+        "id": "lily-with-bud-and-leaves"
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper",
@@ -508,8 +790,17 @@ const PRODUCTS = [
     ],
     "desc": "Crafted with crepe paper for a realistic and elegant look. Lightweight and long-lasting.",
     "bulkPricing": [
-      { "qty": "50–99 pcs", "price": 24, "min": 50, "max": 99 },
-      { "qty": "100+ pcs", "price": 20, "min": 100 }
+      {
+        "qty": "50–99 pcs",
+        "price": 24,
+        "min": 50,
+        "max": 99
+      },
+      {
+        "qty": "100+ pcs",
+        "price": 20,
+        "min": 100
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper",
@@ -533,8 +824,17 @@ const PRODUCTS = [
     ],
     "desc": "Crafted with crepe paper for a realistic and elegant look. Lightweight and long-lasting.",
     "bulkPricing": [
-      { "qty": "50–99 pcs", "price": 24, "min": 50, "max": 99 },
-      { "qty": "100+ pcs", "price": 20, "min": 100 }
+      {
+        "qty": "50–99 pcs",
+        "price": 24,
+        "min": 50,
+        "max": 99
+      },
+      {
+        "qty": "100+ pcs",
+        "price": 20,
+        "min": 100
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper",
@@ -576,9 +876,24 @@ const PRODUCTS = [
     ],
     "desc": "Subtle and graceful cream-colored handcrafted hibiscus paper flower with finely ruffled edges.",
     "options": [
-      { "name": "Plain Colour (Cream / Light Peach)", "price": 160, "unit": "flower" },
-      { "name": "Yellow-Orange Light Shaded", "price": 200, "unit": "flower" },
-      { "name": "Yellow-Reddish Pink / Dark Orange Shaded", "price": 300, "unit": "flower" }
+      {
+        "name": "Plain Colour (Cream / Light Peach)",
+        "price": 160,
+        "unit": "flower",
+        "id": "plain-colour-cream-light-peach"
+      },
+      {
+        "name": "Yellow-Orange Light Shaded",
+        "price": 200,
+        "unit": "flower",
+        "id": "yellow-orange-light-shaded"
+      },
+      {
+        "name": "Yellow-Reddish Pink / Dark Orange Shaded",
+        "price": 300,
+        "unit": "flower",
+        "id": "yellow-reddish-pink-dark-orange-shaded"
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper",
@@ -604,9 +919,23 @@ const PRODUCTS = [
     ],
     "desc": "Crafted with crepe paper for a realistic and elegant look. Lightweight and long-lasting.",
     "bulkPricing": [
-      { "qty": "25–49 pcs", "price": 60, "min": 25, max: 49 },
-      { "qty": "50–99 pcs", "price": 55, "min": 50, max: 99 },
-      { "qty": "100+ pcs", "price": 50, "min": 100 }
+      {
+        "qty": "25–49 pcs",
+        "price": 60,
+        "min": 25,
+        "max": 49
+      },
+      {
+        "qty": "50–99 pcs",
+        "price": 55,
+        "min": 50,
+        "max": 99
+      },
+      {
+        "qty": "100+ pcs",
+        "price": 50,
+        "min": 100
+      }
     ],
     "specs": {
       "material": "High quality extra fine crepe paper",
@@ -618,56 +947,126 @@ const PRODUCTS = [
 ];
 
 const CATEGORIES = [
-  ["all", "All"],
-  ["rose", "Roses"],
-  ["anthurium", "Anthuriums"],
-  ["lily", "Lilies"],
-  ["sunflower", "Sunflowers & Daisies"],
-  ["exotic", "Exotic & Traditional"]
+  [
+    "all",
+    "All"
+  ],
+  [
+    "rose",
+    "Roses"
+  ],
+  [
+    "anthurium",
+    "Anthuriums"
+  ],
+  [
+    "lily",
+    "Lilies"
+  ],
+  [
+    "sunflower",
+    "Sunflowers & Daisies"
+  ],
+  [
+    "exotic",
+    "Exotic & Traditional"
+  ]
 ];
 
-/* Anthurium collection details & bulk pricing matrix */
 const ANTHURIUM_INFO = {
-  material: "High quality extra fine crepe paper with shiny coating on flower",
-  size: "Approx. 4.5″ × 3.5″",
-  stem: "Approx. 12″",
-  description: "These lightweight, long-lasting flowers are perfect for home decor, gifting, event decoration, or DIY arrangements. Unlike real flowers, they stay fresh and vibrant forever.",
-  colorsNote: "Available in all colours as per your preference",
-  plain: {
-    title: "Anthurium – Plain Colour",
-    price: 320,
-    moq: "5 piece (same colour and size)",
-    tiers: [
-      { qty: "1–9 pcs", rate: "₹320/- per pc", price: 320 },
-      { qty: "10–49 pcs", rate: "₹300/- per pc", price: 300 },
-      { qty: "50 or more pcs", rate: "₹280/- per pc", price: 280 }
+  "material": "High quality extra fine crepe paper with shiny coating on flower",
+  "size": "Approx. 4.5″ × 3.5″",
+  "stem": "Approx. 12″",
+  "description": "These lightweight, long-lasting flowers are perfect for home decor, gifting, event decoration, or DIY arrangements. Unlike real flowers, they stay fresh and vibrant forever.",
+  "colorsNote": "Available in all colours as per your preference",
+  "plain": {
+    "title": "Anthurium – Plain Colour",
+    "price": 320,
+    "moq": "5 piece (same colour and size)",
+    "tiers": [
+      {
+        "qty": "1–9 pcs",
+        "rate": "₹320/- per pc",
+        "price": 320
+      },
+      {
+        "qty": "10–49 pcs",
+        "rate": "₹300/- per pc",
+        "price": 300
+      },
+      {
+        "qty": "50 or more pcs",
+        "rate": "₹280/- per pc",
+        "price": 280
+      }
     ]
   },
-  shaded: {
-    title: "Anthurium (Shaded / Two tone)",
-    price: 360,
-    moq: "5 piece (same colour and size)",
-    tiers: [
-      { qty: "1–9 pcs", rate: "₹360/- per pc", price: 360 },
-      { qty: "10–49 pcs", rate: "₹340/- per pc", price: 340 },
-      { qty: "50 or more pcs", rate: "₹320/- per pc", price: 320 }
+  "shaded": {
+    "title": "Anthurium (Shaded / Two tone)",
+    "price": 360,
+    "moq": "5 piece (same colour and size)",
+    "tiers": [
+      {
+        "qty": "1–9 pcs",
+        "rate": "₹360/- per pc",
+        "price": 360
+      },
+      {
+        "qty": "10–49 pcs",
+        "rate": "₹340/- per pc",
+        "price": 340
+      },
+      {
+        "qty": "50 or more pcs",
+        "rate": "₹320/- per pc",
+        "price": 320
+      }
     ]
   }
 };
 
-/* 'Every flower has a language' */
 const FLOWER_LANGUAGE = [
-  ["Rose", "Love & devotion"],
-  ["Lily", "Purity & renewal"],
-  ["Sunflower", "Joy & loyalty"],
-  ["Marigold", "Auspicious beginnings"],
-  ["Jasmine", "Grace & affection"],
-  ["Lotus", "Peace & new life"],
+  [
+    "Rose",
+    "Love & devotion"
+  ],
+  [
+    "Lily",
+    "Purity & renewal"
+  ],
+  [
+    "Sunflower",
+    "Joy & loyalty"
+  ],
+  [
+    "Marigold",
+    "Auspicious beginnings"
+  ],
+  [
+    "Jasmine",
+    "Grace & affection"
+  ],
+  [
+    "Lotus",
+    "Peace & new life"
+  ]
 ];
 
 const OCCASIONS = [
-  ["Weddings", "Handmade varmalas, bridal paper bouquets and keepsake décor."],
-  ["Birthdays & Anniversaries", "Custom forever bouquets with a handwritten wax-sealed note."],
-  ["Pooja & Festivals", "Everlasting marigold, lotus and pooja florals."],
-  ["Corporate & Gifting", "Long-lasting aesthetic desk flowers and executive hampers."],
+  [
+    "Weddings",
+    "Handmade varmalas, bridal paper bouquets and keepsake décor."
+  ],
+  [
+    "Birthdays & Anniversaries",
+    "Custom forever bouquets with a handwritten wax-sealed note."
+  ],
+  [
+    "Pooja & Festivals",
+    "Everlasting marigold, lotus and pooja florals."
+  ],
+  [
+    "Corporate & Gifting",
+    "Long-lasting aesthetic desk flowers and executive hampers."
+  ]
 ];
