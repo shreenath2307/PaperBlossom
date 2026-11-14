@@ -590,7 +590,7 @@
   const cvs = $("#petals"), ctx = cvs.getContext("2d");
   let W = 0, H = 0, dpr = 1, petals = [], last = 0, lastSpawn = 0, raf = 0, mx = -1, my = -1;
   let paused = safeLS.get("pb-paused") === "1" || matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const MAX = 90;
+  const MAX = 35;
   function resize() {
     dpr = Math.min(devicePixelRatio || 1, 2);
     W = innerWidth;
@@ -606,20 +606,23 @@
     if (petals.length >= MAX) petals.shift();
     const pal = PALETTES[theme];
     petals.push({
-      x, y, vx: (Math.random() - .5) * (burst ? 60 : 24), vy: (burst ? 20 : 30) + Math.random() * 40,
-      s: 6 + Math.random() * 9, r: Math.random() * 6.28, vr: (Math.random() - .5) * 3,
-      sw: Math.random() * 6.28, swS: 1 + Math.random() * 2, c: pal[Math.floor(Math.random() * 3)], a: .85,
+      x, y, vx: (Math.random() - .5) * (burst ? 35 : 18), vy: (burst ? 18 : 22) + Math.random() * 25,
+      s: 5 + Math.random() * 6, r: Math.random() * 6.28, vr: (Math.random() - .5) * 2,
+      sw: Math.random() * 6.28, swS: 0.8 + Math.random() * 1.5, c: pal[Math.floor(Math.random() * 3)], a: .72,
     });
   }
   addEventListener("pointermove", e => {
     if (paused || e.pointerType === "touch") return;
     mx = e.clientX; my = e.clientY;
     const now = performance.now();
-    if (now - lastSpawn > 70) { lastSpawn = now; spawn(mx + (Math.random() - .5) * 14, my, true); }
+    if (now - lastSpawn > 240) {
+      lastSpawn = now;
+      spawn(mx + (Math.random() - .5) * 10, my, true);
+    }
   }, { passive: true });
   addEventListener("pointerdown", e => {
     if (paused || e.target.closest("#pauseBtn")) return;
-    for (let i = 0; i < 6; i++) spawn(e.clientX, e.clientY, true);
+    spawn(e.clientX, e.clientY, true);
   }, { passive: true });
 
   function drawPetal(p) {
@@ -634,12 +637,12 @@
     raf = requestAnimationFrame(frame);
     const dt = Math.min((t - last) / 1000 || 0, .05); last = t;
     ctx.clearRect(0, 0, W, H);
-    if (Math.random() < dt * 2.2 && petals.length < MAX * .55) spawn(Math.random() * W, -20, false); // ambient
+    if (Math.random() < dt * 0.9 && petals.length < 18) spawn(Math.random() * W, -20, false); // ambient
     for (let i = petals.length - 1; i >= 0; i--) {
       const p = petals[i];
-      p.sw += p.swS * dt; p.x += (p.vx + Math.sin(p.sw) * 28) * dt; p.y += p.vy * dt; p.r += p.vr * dt;
+      p.sw += p.swS * dt; p.x += (p.vx + Math.sin(p.sw) * 20) * dt; p.y += p.vy * dt; p.r += p.vr * dt;
       if (p.y > H + 30) { petals.splice(i, 1); continue; }
-      if (p.y > H - 120) p.a = Math.max(0, (H - p.y + 30) / 150) * .85;
+      if (p.y > H - 120) p.a = Math.max(0, (H - p.y + 30) / 150) * .72;
       drawPetal(p);
     }
   }
