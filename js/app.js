@@ -268,13 +268,23 @@
     // Handle Expand Accordion Toggle
     const toggleBtn = e.target.closest("[data-toggle]");
     if (toggleBtn) {
+      e.preventDefault();
+      e.stopPropagation();
       const id = toggleBtn.dataset.toggle;
       const panel = $(`#panel-${id}`);
       if (panel) {
-        const isHidden = panel.hidden;
-        panel.hidden = !isHidden;
-        toggleBtn.setAttribute("aria-expanded", isHidden ? "true" : "false");
-        toggleBtn.classList.toggle("open", isHidden);
+        const isOpen = panel.classList.contains("open");
+        if (isOpen) {
+          panel.classList.remove("open");
+          panel.hidden = true;
+          toggleBtn.classList.remove("open");
+          toggleBtn.setAttribute("aria-expanded", "false");
+        } else {
+          panel.classList.add("open");
+          panel.hidden = false;
+          toggleBtn.classList.add("open");
+          toggleBtn.setAttribute("aria-expanded", "true");
+        }
       }
       return;
     }

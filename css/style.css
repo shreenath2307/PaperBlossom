@@ -23,6 +23,7 @@
 }
 
 * { box-sizing: border-box; margin: 0; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
 body {
   font-family: var(--font-body); font-weight: 300; color: var(--ink);
@@ -497,16 +498,22 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; line-height
 }
 
 .card-details-panel {
+  display: none !important;
   background: color-mix(in srgb, var(--accent) 3%, var(--bg2));
   border: 1px dashed color-mix(in srgb, var(--accent) 28%, transparent);
   border-radius: 12px;
   padding: 12px 14px;
   margin-bottom: 14px;
-  display: flex;
   flex-direction: column;
   gap: 10px;
   font-size: .8rem;
   animation: fadeInPanel .25s var(--ease);
+}
+.card-details-panel.open {
+  display: flex !important;
+}
+.card-details-panel[hidden] {
+  display: none !important;
 }
 @keyframes fadeInPanel {
   from { opacity: 0; transform: translateY(-4px); }
