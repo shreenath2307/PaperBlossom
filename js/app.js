@@ -145,6 +145,71 @@
     `;
   }
 
+  function renderCardDetails(p) {
+    let html = "";
+
+    // MOQ
+    if (p.moq) {
+      const moqTxt = p.specs?.moq || `${p.moq} flowers (same colour and size)`;
+      html += `<div class="cd-sec moq-sec"><span class="cd-label">MOQ:</span> <strong>${esc(moqTxt)}</strong></div>`;
+    }
+
+    // Options / Finishes
+    if (p.options && p.options.length) {
+      html += `
+        <div class="cd-sec">
+          <div class="cd-title">Options &amp; Finishes:</div>
+          <div class="cd-options">
+            ${p.options.map(o => `
+              <div class="cd-opt-row">
+                <span>${esc(o.name)}</span>
+                <b>${money(o.price)} <small>/ ${o.unit || "pc"}</small></b>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    // Bulk Pricing
+    if (p.bulkPricing && p.bulkPricing.length) {
+      html += `
+        <div class="cd-sec">
+          <div class="cd-title">Bulk Pricing:</div>
+          <div class="cd-bulk-grid">
+            ${p.bulkPricing.map(t => `
+              <div class="cd-bulk-cell">
+                <span class="bp-q">${t.qty}</span>
+                <b class="bp-p">${money(t.price)} <small>/pc</small></b>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    // Specifications
+    if (p.specs) {
+      html += `
+        <div class="cd-sec specs-sec">
+          <div class="cd-title">Product Details:</div>
+          <div class="cd-specs-list">
+            ${p.specs.material ? `<div><b>Material:</b> <span>${esc(p.specs.material)}</span></div>` : ""}
+            ${p.specs.diameter ? `<div><b>Flower Diameter:</b> <span>${esc(p.specs.diameter)}</span></div>` : ""}
+            ${p.specs.size ? `<div><b>Flower Size:</b> <span>${esc(p.specs.size)}</span></div>` : ""}
+            ${p.specs.stem ? `<div><b>Stem Height:</b> <span>${esc(p.specs.stem)}</span></div>` : ""}
+            ${p.specs.leafHeight ? `<div><b>Leaf Height:</b> <span>${esc(p.specs.leafHeight)}</span></div>` : ""}
+            ${p.specs.fullStick ? `<div><b>Full Stick Height:</b> <span>${esc(p.specs.fullStick)}</span></div>` : ""}
+            ${p.specs.colors ? `<div><b>Colours:</b> <span>${esc(p.specs.colors)}</span></div>` : ""}
+            ${p.specs.uses ? `<div><b>Best For:</b> <span>${esc(p.specs.uses)}</span></div>` : ""}
+          </div>
+        </div>
+      `;
+    }
+
+    return html;
+  }
+
   function renderGrid() {
     const list = PRODUCTS.filter(p =>
       (filter === "all" || p.category === filter) &&
@@ -158,44 +223,39 @@
     }
 
     $("#grid").innerHTML = list.map((p, i) => {
-      const isAnth = p.category === "anthurium" || Boolean(p.bulkPricing);
       const inCart = cart[p.id] || 0;
+      const hasDetails = Boolean(p.moq || p.options || p.bulkPricing || p.specs);
       return `
-      <article class="card reveal ${isAnth ? "card-anthurium" : ""}" style="transition-delay:${Math.min(i, 6) * 60}ms" data-id="${p.id}">
+      <article class="card reveal" style="transition-delay:${Math.min(i, 6) * 60}ms" data-id="${p.id}">
         <div class="card-img">
           ${media(p)}
           <span class="tag">${esc(CATEGORIES.find(c => c[0] === p.category)?.[1] || p.category)}</span>
-          ${isAnth && p.variantType ? `<span class="tag-variant">${esc(p.variantType)}</span>` : ""}
-          ${isAnth && p.moq ? `<span class="tag-moq">MOQ: ${p.moq} pcs</span>` : ""}
+          ${p.variantType ? `<span class="tag-variant">${esc(p.variantType)}</span>` : ""}
+          ${p.moq ? `<span class="tag-moq">MOQ: ${p.moq} pcs</span>` : ""}
         </div>
         <div class="card-body">
           <span class="hi">${esc(p.hindi || "")}</span>
           <h3>${esc(p.name)}</h3>
-          <p>${esc(p.desc)}</p>
-          ${isAnth && p.bulkPricing ? `
-            <div class="acb-box">
-              <div class="acb-head">
-                <span class="acb-title">Bulk Pricing Tiers</span>
-                <span class="acb-moq">MOQ 5 pcs</span>
-              </div>
-              <div class="acb-tiers">
-                ${p.bulkPricing.map(t => `
-                  <div class="acb-tier">
-                    <span class="acb-q">${t.qty}</span>
-                    <b class="acb-r">₹${t.price} <small>/pc</small></b>
-                  </div>
-                `).join("")}
-              </div>
-              <div class="acb-specs">
-                <span>✨ Shiny coating on extra fine crepe</span>
-                <span>📏 ~4.5″ × 3.5″ · Stem: ~12″</span>
-                <span>🎨 Available in all colours as per preference</span>
-              </div>
+          <p class="card-desc">${esc(p.desc)}</p>
+
+          ${hasDetails ? `
+            <button type="button" class="expand-btn" data-toggle="${p.id}" aria-expanded="false" title="Click to view pricing, options & specs">
+              <span>Pricing &amp; Details</span>
+              <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="card-details-panel" id="panel-${p.id}" hidden>
+              ${renderCardDetails(p)}
             </div>
           ` : ""}
+
           <div class="card-foot">
-            <div class="price"><b>${money(p.price)}</b><small>${esc(p.unit)}</small></div>
-            <button class="add" data-add="${p.id}">${isAnth && p.moq && !inCart ? `Add MOQ (${p.moq}) +` : "Add +"}</button>
+            <div class="price">
+              <b>${money(p.price)}</b>
+              <small>${esc(p.unit)}</small>
+            </div>
+            <button class="add" data-add="${p.id}">${p.moq && !inCart ? `Add MOQ (${p.moq}) +` : "Add +"}</button>
           </div>
         </div>
       </article>`;
@@ -205,10 +265,33 @@
   }
 
   $("#grid").addEventListener("click", e => {
-    const b = e.target.closest("[data-add]"); if (!b) return;
-    addToCart(b.dataset.add);
-    b.textContent = "Added ✓"; b.classList.add("added");
-    setTimeout(() => { b.textContent = "Add +"; b.classList.remove("added"); }, 1200);
+    // Handle Expand Accordion Toggle
+    const toggleBtn = e.target.closest("[data-toggle]");
+    if (toggleBtn) {
+      const id = toggleBtn.dataset.toggle;
+      const panel = $(`#panel-${id}`);
+      if (panel) {
+        const isHidden = panel.hidden;
+        panel.hidden = !isHidden;
+        toggleBtn.setAttribute("aria-expanded", isHidden ? "true" : "false");
+        toggleBtn.classList.toggle("open", isHidden);
+      }
+      return;
+    }
+
+    // Handle Add to Basket
+    const b = e.target.closest("[data-add]");
+    if (b) {
+      const pid = b.dataset.add;
+      addToCart(pid);
+      b.textContent = "Added ✓"; b.classList.add("added");
+      setTimeout(() => {
+        const p = byId(pid);
+        b.textContent = (p && p.moq && !cart[p.id]) ? `Add MOQ (${p.moq}) +` : "Add +";
+        b.classList.remove("added");
+      }, 1200);
+      return;
+    }
   });
 
   // 3D tilt on cards

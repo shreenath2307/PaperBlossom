@@ -460,6 +460,163 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; line-height
   margin-top: 2px;
 }
 
+/* ===================== CARD EXPANDABLE ACCORDION ===================== */
+.expand-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 12px;
+  margin: 10px 0 12px;
+  background: var(--bg2);
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: .82rem;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all .25s var(--ease);
+}
+.expand-btn:hover {
+  background: color-mix(in srgb, var(--accent) 7%, var(--bg2));
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.expand-btn.open {
+  background: color-mix(in srgb, var(--accent) 10%, var(--bg2));
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.expand-btn .chevron {
+  transition: transform .3s var(--ease);
+  stroke: currentColor;
+}
+.expand-btn.open .chevron {
+  transform: rotate(180deg);
+}
+
+.card-details-panel {
+  background: color-mix(in srgb, var(--accent) 3%, var(--bg2));
+  border: 1px dashed color-mix(in srgb, var(--accent) 28%, transparent);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: .8rem;
+  animation: fadeInPanel .25s var(--ease);
+}
+@keyframes fadeInPanel {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+
+.cd-sec {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.cd-sec.moq-sec {
+  flex-direction: row;
+  align-items: baseline;
+  gap: 6px;
+  background: var(--card);
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+}
+.cd-label {
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  font-size: .72rem;
+  letter-spacing: .05em;
+}
+.cd-title {
+  font-size: .73rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--accent);
+}
+
+.cd-options {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.cd-opt-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 8px;
+  background: var(--card);
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  font-size: .78rem;
+}
+.cd-opt-row span {
+  color: var(--ink);
+}
+.cd-opt-row b {
+  color: var(--accent);
+  font-weight: 600;
+}
+.cd-opt-row b small {
+  font-weight: 400;
+  color: var(--muted);
+  font-size: .7rem;
+}
+
+.cd-bulk-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
+  gap: 6px;
+}
+.cd-bulk-cell {
+  background: var(--card);
+  padding: 6px 4px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  text-align: center;
+}
+.cd-bulk-cell .bp-q {
+  display: block;
+  font-size: .68rem;
+  color: var(--muted);
+}
+.cd-bulk-cell .bp-p {
+  display: block;
+  font-family: var(--font-display);
+  font-size: .86rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+.cd-bulk-cell .bp-p small {
+  font-family: var(--font-body);
+  font-size: .62rem;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.cd-specs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  line-height: 1.35;
+}
+.cd-specs-list > div {
+  font-size: .76rem;
+  color: var(--muted);
+}
+.cd-specs-list b {
+  color: var(--ink);
+  font-size: .74rem;
+  margin-right: 4px;
+}
+
 /* ===================== LANGUAGE / OCCASIONS / HOW ===================== */
 .lang, .how { background: var(--bg2); overflow: hidden; }
 .lang > *, .how > * { position: relative; z-index: 1; }
